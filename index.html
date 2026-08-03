@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bhairavi Thul — Product Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #FBF0F2;
+    --nav-bg: #C4697B;
+    --pink-card: #EFC5CB;
+    --pink-dark: #B85468;
+    --text-dark: #2C1A20;
+    --text-mid: #6B3A48;
+    --white: #fff;
+    --outcome-border: #D9909C;
+    --hero-overflow: clamp(60px, 14vw, 130px);   /* photo bleed — scales down as box shrinks */
+    --page-gutter: 2.5rem;    /* responsive side margin, shrinks on phone */
+  }
+
+  body {
+    font-family: "DM Sans", sans-serif;
+    background: var(--bg);
+    color: var(--text-dark);
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--nav-bg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2.5rem;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-home {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .nav-home svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .nav-links a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    opacity: 0.92;
+    transition: opacity 0.2s;
+  }
+
+  .nav-links a:hover { opacity: 1; }
+
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    padding: 6px;
+    cursor: pointer;
+  }
+  .nav-toggle svg { width: 22px; height: 22px; }
+
+  .nav-dropdown {
+    display: none;
+    flex-direction: column;
+    gap: 0.9rem;
+    position: absolute;
+    top: 60px;
+    right: var(--page-gutter, 1.5rem);
+    background: var(--nav-bg);
+    padding: 1rem 1.3rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 28px rgba(44,26,32,0.28);
+    z-index: 150;
+  }
+  .nav-dropdown.active { display: flex; }
+  .nav-dropdown a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.92rem;
+    opacity: 0.92;
+  }
+  .nav-dropdown a:hover { opacity: 1; }
+
+  .linkedin-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background: var(--white);
+    border-radius: 6px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .linkedin-btn:hover { opacity: 0.85; }
+
+  .linkedin-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: var(--nav-bg);
+  }
+
+  /* ── HERO ── */
+  .hero-wrap {
+    max-width: 1200px;
+    /* nav bottom → top of the (overflowing) image composition = exactly 10px */
+    margin: calc(10px + var(--hero-overflow)) auto 0;
+    padding: 0 var(--page-gutter);
+  }
+
+  .hero-card {
+    background: var(--pink-card);
+    border-radius: 28px;
+    display: grid;
+    grid-template-columns: minmax(140px, 42%) 1fr;
+    height: 240px;              /* fixed bg box height */
+    overflow: visible;
+    position: relative;
+  }
+
+  .hero-photo-col {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+  }
+
+  .hero-photo {
+    position: absolute;
+    bottom: 0;
+    top: calc(-1 * var(--hero-overflow));
+    left: -10px;
+    width: 480px;
+    max-width: 105%;
+    height: calc(240px + var(--hero-overflow));
+    object-fit: contain;
+    object-position: bottom left;
+    filter: drop-shadow(0 6px 20px rgba(44,26,32,0.12));
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .hero-text-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem 3rem 2rem 1rem;
+  }
+
+  .hero-title {
+    font-family: "DM Sans", sans-serif;
+    font-size: clamp(2.6rem, 4.2vw, 4rem);
+    font-weight: 700;
+    color: var(--pink-dark);
+    line-height: 1.05;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+
+  .hero-title br.title-break { display: none; }
+
+  .hero-tagline {
+    font-size: clamp(0.9rem, 1.3vw, 1.05rem);
+    font-weight: 300;
+    color: var(--text-dark);
+    line-height: 1.65;
+  }
+
+  /* ── PROJECT BLOCK (stroked box + bento grid) ── */
+  .section-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4.5rem var(--page-gutter) 0;
+    scroll-margin-top: 80px;
+  }
+
+  .section-tag {
+    text-align: center;
+    margin-bottom: 1.2rem;
+  }
+
+  .section-tag span {
+    display: inline-block;
+    background: var(--pink-card);
+    color: var(--text-mid);
+    font-size: 0.85rem;
+    font-weight: 400;
+    padding: 0.35rem 1.2rem;
+    border-radius: 30px;
+    letter-spacing: 0.01em;
+  }
+
+  /* main stroked box: project name, keywords, problem statement */
+  .project-box {
+    background: var(--white);
+    border-radius: 22px;
+    padding: 1.8rem 2.5rem;
+    text-align: center;
+    margin-bottom: 1.4rem;
+  }
+
+  .project-name {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.6rem;
+  }
+
+  .project-keywords {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--pink-dark);
+    margin-bottom: 0.9rem;
+  }
+
+  .project-keywords .dot {
+    margin: 0 0.5rem;
+    opacity: 0.6;
+  }
+
+  .project-meta {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 1.6rem 0;
+  }
+  .project-meta-item { text-align: center; }
+  .project-meta-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--pink-dark);
+    margin-bottom: 0.25rem;
+  }
+  .project-meta-value {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+
+  .project-problem {
+    max-width: 820px;
+    margin: 0 auto;
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.65;
+  }
+
+  .project-cover {
+    margin-top: 1.4rem;
+    border-radius: 18px;
+    overflow: hidden;
+  }
+  .project-cover img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ── TESTIMONIALS ── */
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+
+  .testimonial-card {
+    background: var(--white);
+    border-radius: 18px;
+    padding: 1.5rem 1.6rem;
+  }
+
+  .testimonial-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.8rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .testimonial-name {
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.4;
+  }
+
+  .testimonial-linkedin {
+    flex-shrink: 0;
+    display: flex;
+    margin-top: 0.15rem;
+  }
+  .testimonial-linkedin svg { width: 22px; height: 22px; }
+
+  .testimonial-quote {
+    font-size: 0.86rem;
+    font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 700px) {
+    .testimonial-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── CONTACT ── */
+  .contact-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    border: 1.5px solid var(--pink-dark);
+    color: var(--pink-dark);
+    background: transparent;
+    font-weight: 600;
+    font-size: 0.92rem;
+    padding: 0.65rem 1.6rem;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: background 0.18s ease, color 0.18s ease;
+    cursor: pointer;
+  }
+  .cta-btn:hover { background: var(--pink-dark); color: var(--white); }
+
+  .contact-or {
+    color: var(--text-dark);
+    font-size: 0.95rem;
+  }
+
+  .contact-email-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .contact-email-label {
+    font-size: 0.75rem;
+    color: var(--text-mid);
+  }
+
+  .contact-email-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .contact-email {
+    font-weight: 700;
+    color: var(--text-dark);
+    font-size: 1rem;
+  }
+
+  .copy-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    color: var(--text-mid);
+    transition: color 0.15s ease;
+  }
+  .copy-btn:hover { color: var(--pink-dark); }
+  .copy-btn svg { width: 16px; height: 16px; }
+
+  /* ── KEY OUTCOMES (general, portfolio-wide) ── */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .stat-card {
+    background: var(--white);
+    border-radius: 18px;
+    padding: 1.5rem 1.6rem;
+    text-align: center;
+  }
+
+  .stat-number {
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1.25;
+    min-height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--pink-dark);
+    margin-bottom: 0.4rem;
+  }
+
+  .stat-label {
+    font-size: 0.86rem;
+    font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.5;
+  }
+
+  /* ── CLIENTS SO FAR ── */
+  .clients-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);   /* stretches to fill full section width */
+    gap: 1.25rem;
+  }
+
+  .client-card {
+    height: 110px;
+    border-radius: 16px;
+    padding: 1.25rem 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .client-card.light { background: var(--white); }
+  .client-card.dark  { background: #0A0A0A; }
+
+  .client-card img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+
+  /* ── PAST WORK ── */
+  .pastwork-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+  }
+
+  .pastwork-card {
+    background: var(--white);
+    border-radius: 18px;
+    overflow: hidden;
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .pastwork-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(184, 84, 104, 0.18);
+  }
+
+  .pastwork-thumb {
+    width: 100%;
+    height: 140px;
+    background: var(--bg);
+    border-bottom: 1.5px dashed var(--outcome-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-mid);
+    font-size: 0.8rem;
+  }
+  .pastwork-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .pastwork-body { padding: 1.2rem 1.4rem; }
+
+  .pastwork-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.4rem;
+  }
+
+  .pastwork-desc {
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.55;
+  }
+
+  /* dynamic bento grid: 3–6 cards */
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .bento-grid[data-count="4"] { grid-template-columns: repeat(2, 1fr); }
+
+  .bento-grid[data-count="5"] { grid-template-columns: repeat(6, 1fr); }
+  .bento-grid[data-count="5"] .bento-card:nth-child(1) { grid-column: span 3; }
+  .bento-grid[data-count="5"] .bento-card:nth-child(2) { grid-column: span 3; }
+  .bento-grid[data-count="5"] .bento-card:nth-child(3) { grid-column: span 2; }
+  .bento-grid[data-count="5"] .bento-card:nth-child(4) { grid-column: span 2; }
+  .bento-grid[data-count="5"] .bento-card:nth-child(5) { grid-column: span 2; }
+
+  .bento-grid[data-count="6"] { grid-template-columns: repeat(3, 1fr); }
+
+  .bento-card {
+    background: var(--white);
+    border: 1.5px solid var(--outcome-border);
+    border-radius: 18px;
+    padding: 1.5rem 1.6rem;
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  }
+
+  .bento-card:hover,
+  .bento-card:focus-visible {
+    transform: translateY(-4px);
+    border-color: var(--pink-dark);
+    box-shadow: 0 10px 24px rgba(184, 84, 104, 0.18);
+    outline: none;
+  }
+
+  .bento-stat {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.6rem;
+    line-height: 1.3;
+  }
+
+  .bento-desc {
+    font-size: 0.86rem;
+    font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.6;
+  }
+
+  /* ── OUTCOME MODAL ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(44, 26, 32, 0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+    z-index: 500;
+  }
+
+  .modal-overlay.active { display: flex; }
+
+  .modal-box {
+    background: var(--white);
+    border-radius: 22px;
+    max-width: 460px;
+    width: 100%;
+    padding: 2rem;
+    position: relative;
+    box-shadow: 0 24px 60px rgba(44, 26, 32, 0.28);
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    background: var(--bg);
+    color: var(--text-mid);
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .modal-image-placeholder {
+    width: 100%;
+    height: 170px;
+    background: var(--bg);
+    border: 1.5px dashed var(--outcome-border);
+    border-radius: 14px;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-mid);
+    font-size: 0.8rem;
+    font-weight: 400;
+  }
+
+  .modal-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.6rem;
+  }
+
+  .modal-desc {
+    font-size: 0.92rem;
+    font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.65;
+  }
+
+  .modal-box.gallery {
+    width: 75vw;
+    min-width: 640px;
+    max-width: 1000px;
+    height: 820px;
+    max-height: 92vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal-keywords {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--accent, #b85468);
+    letter-spacing: 0.02em;
+    margin: 0.35rem 0 1rem 0;
+  }
+  .modal-keywords .dot { margin: 0 0.4rem; opacity: 0.5; }
+
+  .modal-gallery {
+    display: none;
+    flex-direction: row;
+    gap: 1.1rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin-bottom: 1.4rem;
+    padding-bottom: 0.6rem;
+    flex-shrink: 0;
+    scroll-snap-type: x proximity;
+  }
+  .modal-box.gallery { display: flex; flex-direction: column; }
+  .modal-box.gallery .modal-gallery.active { display: flex; }
+  .modal-box.gallery .modal-image-placeholder { display: none; }
+  .modal-box.gallery .modal-title,
+  .modal-box.gallery .modal-keywords,
+  .modal-box.gallery .modal-desc {
+    flex-shrink: 0;
+  }
+
+  .modal-gallery-frame {
+    flex: 0 0 auto;
+    height: 380px;
+    background: var(--bg);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    scroll-snap-align: start;
+  }
+  .modal-gallery-frame img {
+    height: 100%;
+    width: auto;
+    max-width: none;
+    object-fit: contain;
+    display: block;
+    border-radius: 10px;
+  }
+  .modal-gallery-frame.padded {
+    width: 300px;
+    padding: 0.75rem;
+  }
+  .modal-gallery-frame.padded img {
+    height: auto;
+    max-height: 100%;
+    width: auto;
+    max-width: 100%;
+  }
+
+  @media (max-width: 700px) {
+    .modal-box.gallery { width: 90vw; min-width: 0; height: 90vh; max-height: 90vh; }
+    .modal-gallery-frame { height: 260px; }
+    .modal-gallery-frame.padded { width: 220px; padding: 0.6rem; }
+  }
+
+  /* ── RESPONSIVE: HERO SWITCHES TO STACKED, CENTERED LAYOUT ── */
+  @media (max-width: 900px) {
+    :root {
+      --page-gutter: 1.25rem;   /* margin shrinks responsively on phone */
+    }
+
+    .nav-links { display: none; }
+    .nav-toggle { display: flex; align-items: center; justify-content: center; }
+    .project-cover img { height: 170px; }
+
+    .hero-card {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+    }
+
+    .hero-photo-col {
+      position: relative;
+      height: 150px;              /* reserved in-flow space before text starts */
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;    /* image centers itself when stacked */
+    }
+
+    .hero-photo {
+      top: calc(-1 * var(--hero-overflow));
+      left: 50%;
+      transform: translateX(-50%);
+      width: 320px;
+      max-width: 78%;
+      height: calc(150px + var(--hero-overflow));
+      object-position: bottom center;
+    }
+
+    .hero-text-col {
+      display: block;
+      padding: 0.5rem 1.5rem 1.5rem;
+    }
+
+    .hero-title {
+      white-space: nowrap;        /* medium screen: still one line */
+      font-size: clamp(1.8rem, 5vw, 2.4rem);
+      margin-bottom: 0.75rem;
+    }
+
+    .project-box { padding: 1.4rem 1.4rem; }
+
+    .bento-grid,
+    .bento-grid[data-count="4"],
+    .bento-grid[data-count="5"],
+    .bento-grid[data-count="6"] {
+      grid-template-columns: 1fr;
+    }
+    .bento-grid .bento-card { grid-column: auto !important; }
+
+    .stat-grid { grid-template-columns: 1fr; }
+    .pastwork-grid { grid-template-columns: 1fr; }
+
+    .clients-grid { grid-template-columns: repeat(2, 1fr); }
+    .client-card { height: 90px; padding: 1rem 1.25rem; }
+  }
+
+  /* phone: title wraps to two lines, everything scales down a touch further */
+  @media (max-width: 600px) {
+    .hero-photo { width: 250px; max-width: 68%; }
+
+    .hero-title {
+      white-space: normal;
+      font-size: clamp(1.7rem, 8vw, 2.1rem);
+    }
+    .hero-title br.title-break { display: block; }
+
+    .hero-tagline { font-size: 0.85rem; }
+  }
+  /* ── PAGE FOOTER ── */
+  .page-footer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem var(--page-gutter) 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--pink-card, #f0d9dd);
+    margin-top: 3rem;
+    font-size: 0.8rem;
+    color: var(--text-mid);
+    text-transform: lowercase;
+  }
+  .page-footer span { letter-spacing: 0.01em; }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-home" href="index.html" title="Home">
+    <!-- Rounded filled home icon -->
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2.5L2 10.5V21C2 21.55 2.45 22 3 22H9V16H15V22H21C21.55 22 22 21.55 22 21V10.5L12 2.5Z" fill="white"/>
+    </svg>
+  </a>
+  <div class="nav-links">
+    <a href="http://www.linkedin.com/in/bhairavithul" target="_blank" rel="noopener" class="linkedin-btn" title="LinkedIn">
+      <!-- Rounded filled LinkedIn icon -->
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <rect width="24" height="24" rx="5" fill="var(--nav-bg)"/>
+        <path fill="white" d="M7.2 5.5a1.7 1.7 0 1 1 0 3.4 1.7 1.7 0 0 1 0-3.4zM5.7 10.5h3v9h-3v-9zm4.8 0h2.9v1.3h.04c.4-.77 1.4-1.58 2.88-1.58 3.08 0 3.65 2.03 3.65 4.67v5.58H17v-4.95c0-1.18-.02-2.7-1.65-2.7-1.65 0-1.9 1.29-1.9 2.62v5.03H10.5v-9z"/>
+      </svg>
+    </a>
+  </div>
+  <button class="nav-toggle" aria-label="Open menu" onclick="document.getElementById('navDropdown').classList.toggle('active'); this.classList.toggle('active')">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 6h16M4 12h16M4 18h16" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </button>
+  <div class="nav-dropdown" id="navDropdown">
+    <a href="http://www.linkedin.com/in/bhairavithul" target="_blank" rel="noopener">LinkedIn ↗</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero-wrap">
+  <div class="hero-card">
+    <div class="hero-photo-col">
+      <img
+        class="hero-photo"
+        src="images/img-1b319c9940a7.png"
+        alt="Hey, I am Bhairavi — product designer"
+      />
+    </div>
+    <div class="hero-text-col">
+      <h1 class="hero-title">product <br class="title-break">designer</h1>
+      <p class="hero-tagline">
+        I don't just design screens.<br>
+        I architect product behaviour&nbsp;—&nbsp;with data, logic &amp; yes, coffee!
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- KEY OUTCOMES -->
+<div class="section-wrap">
+  <div class="section-tag"><span>key outcomes</span></div>
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-number">30 → 3 apk/ month</div>
+      <div class="stat-label">APK versions reduced through upfront logic specifications and architecture</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">90% Use Cases Detected</div>
+      <div class="stat-label">Most of the use cases documented before a single line of code was written</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">~30% Client Acquisition</div>
+      <div class="stat-label">Drove usability-led decisions that balanced user needs and technical feasibility</div>
+    </div>
+  </div>
+</div>
+
+<!-- CLIENTS SO FAR -->
+<div class="section-wrap">
+  <div class="section-tag"><span>clients so far</span></div>
+  <div class="clients-grid">
+    <div class="client-card light">
+      <img src="images/img-9b518a345e02.png" alt="Infosys Helix">
+    </div>
+    <div class="client-card dark">
+      <img src="images/img-f0940b377b8a.png" alt="Neom">
+    </div>
+    <div class="client-card light">
+      <img src="images/img-7d416b30c747.png" alt="Prudential">
+    </div>
+    <div class="client-card dark">
+      <img src="images/img-f6a28090c884.png" alt="Tinker Village">
+    </div>
+  </div>
+</div>
+
+<!-- FRESHLY BAKED WORK -->
+<div class="section-wrap" id="tinker-village">
+  <div class="section-tag"><span>freshly baked work</span></div>
+
+  <!-- main stroked box: project name / keywords / problem statement -->
+  <div class="project-box">
+    <h2 class="project-name">Tinker Village</h2>
+    <div class="project-keywords">
+      Strategy <span class="dot">•</span> Systems Thinking <span class="dot">•</span> Stress Testing <span class="dot">•</span> Product Management
+    </div>
+    <div class="project-meta">
+      <div class="project-meta-item">
+        <div class="project-meta-label">Duration</div>
+        <div class="project-meta-value">04 months</div>
+      </div>
+      <div class="project-meta-item">
+        <div class="project-meta-label">Role</div>
+        <div class="project-meta-value">UI/UX Design Lead</div>
+      </div>
+    </div>
+    <p class="project-problem">
+      Led design and product strategy for Tinker Village, sitting between the founder's vision and the engineering
+      team building it. I traced the platform's instability to a structural gap: there was no information
+      architecture for the team to build against. I validated that with the founder, then translated his
+      half-formed ideas into clear IA, logic flows, and prioritized specs. Managing a team of junior and senior
+      developers, I set direction, kept the team aligned through design and strategy discussions, and stayed close
+      through implementation, taking the platform from 30 APK releases a month down to 3, and catching 90% of use
+      cases before a single line of code was written.
+    </p>
+    <div class="project-cover">
+      <img src="images/img-301242d54667.jpg" alt="Tinker Village cover">
+    </div>
+  </div>
+
+  <!-- bento grid: dynamic, 3–6 cards. Change data-count to match number of .bento-card children -->
+  <div class="bento-grid" data-count="6">
+    <div class="bento-card" tabindex="0"
+         data-title="Building a Scalable App Foundation"
+         data-gallery="true"
+         data-gallery-id="app-foundation"
+         data-keywords="Information Architecture • User Flow Mapping • Onboarding Strategy • Systems Thinking • Stakeholder Alignment"
+         data-desc="From a product and program-management lens, this workstream focused on turning a fragmented, 8-intent onboarding flow into a single scalable foundation the whole team could build on. I mapped the course-info architecture across three curricula (CBSE, Cambridge, IB), redesigned the evidence-upload (SYL) flow with a capped 3-retry logic to reduce support load, and restructured onboarding down to 3 prioritized intents, cutting decision fatigue for new teachers while keeping the system flexible enough to scale to new grades, subjects, and partner brands.">
+      <div class="bento-stat">Building a Scalable App Foundation</div>
+      <div class="bento-desc">8 onboarding intents distilled to 3 core paths across 3 curricula and a capped-retry evidence flow.</div>
+    </div>
+    <div class="bento-card" tabindex="0"
+         data-title="Designing Logical Reward Systems"
+         data-gallery="true"
+         data-gallery-id="reward-systems"
+         data-keywords="Gamification Strategy • Credential Logic • Behavioral Design • Progressive Unlock UX"
+         data-desc="Defined the underlying logic for how teachers earn credentials, so the reward system reads as fair and predictable rather than an opaque black box. I modeled certificate eligibility as a formula (microcredential x sum of completed courses), then validated it against a real use case: 4 courses at Level 01 rolling up into a Learning Designer Certificate, with a Senior tier layered on top as teachers progress through Level 02. On the UI side, I mapped the progressive unlock states per course card, timed the celebration pop-ups to land right after a milestone, and used FOMO-style nudges and a leaderboard tie-in to keep momentum without resorting to arbitrary point inflation.">
+      <div class="bento-stat">Designing Logical Reward Systems</div>
+      <div class="bento-desc">A formula-backed credential system: 4 courses per level roll up into Learning Designer and Senior Learning Designer certificates.</div>
+    </div>
+    <div class="bento-card" tabindex="0"
+         data-title="Creating a Design Language for Developers"
+         data-gallery="true"
+         data-gallery-id="design-language"
+         data-keywords="Design Tokens • Figma Variables • Responsive Typography • Dev Handoff • QA Parity"
+         data-desc="Built a token-based design system in Figma so engineering could pull typography, scale, and weight values straight from a single source of truth instead of eyeballing specs off static screens. Every token (H1 through CTA sizes, line heights, tracking) is set up with responsive Desktop and Mobile modes, exported as structured JSON with stable variable IDs, and mapped to a web code syntax so it drops directly into the codebase. I cross-checked the shipped implementation against DevTools to confirm computed styles matched the token values exactly, closing the loop between design intent and what actually renders in production.">
+      <div class="bento-stat">Creating a Design Language for Developers</div>
+      <div class="bento-desc">A token-based typography system with Desktop/Mobile modes, exported as JSON and QA'd directly in DevTools.</div>
+    </div>
+    <div class="bento-card" tabindex="0"
+         data-title="Stress-Testing & Fixing Bugs"
+         data-gallery="true"
+         data-gallery-id="stress-testing"
+         data-keywords="QA Strategy • Exploratory Testing • Cross-platform Parity • Risk Prioritization"
+         data-desc="Ran structured exploratory testing across iOS and Android in parallel, logging every issue in a shared tracker with platform-specific status, design feedback, and dev resolution side by side so nothing got lost between teams. This surfaced real cross-platform gaps, like comment counts and audio playback syncing on iOS but failing on Android, plus admin-side issues such as rich text formatting not persisting in the portfolio-post editor. Each bug was triaged by user impact rather than raised in the order it was found, so engineering could fix what mattered most before the release window closed.">
+      <div class="bento-stat">Stress-Testing &amp; Fixing Bugs</div>
+      <div class="bento-desc">Cross-platform exploratory testing that caught iOS/Android parity gaps before release.</div>
+    </div>
+    <div class="bento-card" tabindex="0"
+         data-title="Bringing the Interface to Life"
+         data-gallery="true"
+         data-gallery-id="interface-execution"
+         data-keywords="Visual Design • UI Systems • High-fidelity Screens • Design Execution"
+         data-desc="Where the earlier cards show the thinking behind Tinker Village, this is the visual execution of it: the actual screens teachers see day to day. From the dashboard highlights and course tracking cards to onboarding nudges, the feed, communities, and event pages, I designed the full interface end to end, translating the information architecture and logic flows into a consistent, production-ready UI.">
+      <div class="bento-stat">Bringing the Interface to Life</div>
+      <div class="bento-desc">The visual execution behind the strategy: dashboards, onboarding, feed, communities, and events, designed end to end.</div>
+    </div>
+    <div class="bento-card" tabindex="0"
+         data-title="Using Data to Improve User Retention"
+         data-gallery="true"
+         data-gallery-id="user-retention"
+         data-keywords="Retention Analysis • Cohort Funnels • Engagement Metrics • Data-informed Prioritization"
+         data-desc="Set up Mixpanel tracking and dashboards from scratch — defining the events, boards, and reports worth watching — so design decisions could be grounded in actual behavior instead of assumptions. Tracked 838 sessions across 30 days (led by Mumbai at 369 and Varanasi at 165), a 52-second median time from session start to completion, and a 7-day retention curve that fell from roughly 100% on day one to near-zero by day seven — the clearest signal that early-session friction, not lack of interest, was driving drop-off. Cross-referenced this against a 6-step course-completion funnel (Opened Course → Started Lesson → Submitted Feedback → Completed Quiz → Submitted SYL → Scheduled Viva) to pinpoint exactly which step teachers abandoned most, and used per-course watch-time data (up to 11.34K minutes on the top-performing course) to prioritize which lessons needed a redesign first.">
+      <div class="bento-stat">Using Data to Improve User Retention</div>
+      <div class="bento-desc">838 sessions and a day-7 retention curve pinpointed exactly which onboarding step to fix first.</div>
+    </div>
+  </div>
+</div>
+
+<!-- PAST WORK -->
+<div class="section-wrap">
+  <div class="section-tag"><span>past work</span></div>
+  <div class="pastwork-grid">
+    <a class="pastwork-card" href="wellguard.html">
+      <div class="pastwork-thumb"><img src="images/img-9f5c0dfd3d87.jpg" alt="WellGuard"></div>
+      <div class="pastwork-body">
+        <div class="pastwork-title">WellGuard</div>
+        <div class="pastwork-desc">Redesigning a US healthcare data platform for payers, providers, members & governments.</div>
+      </div>
+    </a>
+    <a class="pastwork-card" href="swasbridge.html">
+      <div class="pastwork-thumb"><img src="images/img-5703128f171c.jpg" alt="SwasBridge"></div>
+      <div class="pastwork-body">
+        <div class="pastwork-title">SwasBridge</div>
+        <div class="pastwork-desc">Reimagining a health insurance platform to prioritize proactive, everyday wellness over post-crisis claims.</div>
+      </div>
+    </a>
+    <a class="pastwork-card" href="dg-lock.html">
+      <div class="pastwork-thumb"><img src="images/img-63b7c36bcb51.png" alt="DG Lock" style="width:100%;height:100%;object-fit:cover;"></div>
+      <div class="pastwork-body">
+        <div class="pastwork-title">DG Lock</div>
+        <div class="pastwork-desc">Designing a secure digital locker for citizens and businesses in a next-gen smart city.</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<div class="section-wrap" id="testimonials">
+  <div class="section-tag"><span>what people think</span></div>
+  <div class="testimonial-grid">
+    <div class="testimonial-card">
+      <div class="testimonial-head">
+        <p class="testimonial-name">Kumutha Balaji, Senior Lead UX Designer, Infosys-WD</p>
+        <a class="testimonial-linkedin" href="https://www.linkedin.com/in/kumutha-balaji-415b3036/" target="_blank" rel="noopener" title="LinkedIn">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#0A66C2"/>
+            <path fill="white" d="M7.2 5.5a1.7 1.7 0 1 1 0 3.4 1.7 1.7 0 0 1 0-3.4zM5.7 10.5h3v9h-3v-9zm4.8 0h2.9v1.3h.04c.4-.77 1.4-1.58 2.88-1.58 3.08 0 3.65 2.03 3.65 4.67v5.58H17v-4.95c0-1.18-.02-2.7-1.65-2.7-1.65 0-1.9 1.29-1.9 2.62v5.03H10.5v-9z"/>
+          </svg>
+        </a>
+      </div>
+      <p class="testimonial-quote">Bhairavi wasn't afraid to speak up and ask the important questions during stakeholder meetings. Her insightful questions more than often guided our project into the right direction, bringing clarity and alignment for everyone involved. Bhairavi's blend of strategic thinking, and collaborative spirit makes her an invaluable asset to any team. I wholeheartedly recommend her for any role that values these qualities!</p>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-head">
+        <p class="testimonial-name">Sameer Suryakant Kulkarni, Senior Manager, Infosys</p>
+        <a class="testimonial-linkedin" href="https://www.linkedin.com/in/sameer-suryakant-kulkarni-9a64843/" target="_blank" rel="noopener" title="LinkedIn">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#0A66C2"/>
+            <path fill="white" d="M7.2 5.5a1.7 1.7 0 1 1 0 3.4 1.7 1.7 0 0 1 0-3.4zM5.7 10.5h3v9h-3v-9zm4.8 0h2.9v1.3h.04c.4-.77 1.4-1.58 2.88-1.58 3.08 0 3.65 2.03 3.65 4.67v5.58H17v-4.95c0-1.18-.02-2.7-1.65-2.7-1.65 0-1.9 1.29-1.9 2.62v5.03H10.5v-9z"/>
+          </svg>
+        </a>
+      </div>
+      <p class="testimonial-quote">Bhairavi is one of the sincerest design professionals I have come across. Her communication, articulation, and work management skills are remarkable. She is highly dependable, and takes care of everything that's in her bucket (and at times, that's not in her bucket!). Bhairavi is someone you would earnestly want to work with, and then want to keep working with her!</p>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="section-wrap" id="contact">
+  <div class="section-tag"><span>let's cook cool projects together</span></div>
+  <div class="contact-row">
+    <a class="cta-btn" href="https://calendly.com/thulbhairavi" target="_blank" rel="noopener">schedule a call</a>
+    <span class="contact-or">or</span>
+    <div class="contact-email-block">
+      <span class="contact-email-label">e-mail at</span>
+      <span class="contact-email-row">
+        <span class="contact-email" id="contactEmail">thulbhairavi@gmail.com</span>
+        <button class="copy-btn" id="copyEmailBtn" title="Copy email" aria-label="Copy email">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" id="copyIcon">
+            <rect x="9" y="9" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M5 15V6a2 2 0 0 1 2-2h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- OUTCOME DETAIL MODAL -->
+<div class="modal-overlay" id="outcomeModal">
+  <div class="modal-box" id="modalBox">
+    <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+    <div class="modal-image-placeholder">image placeholder</div>
+    <div class="modal-gallery" id="modalGallery" data-gallery-id="app-foundation">
+      <div class="modal-gallery-frame"><img src="images/img-0e4fd4a174be.png" alt="Building foundation artifact 1"></div>
+      <div class="modal-gallery-frame"><img src="images/img-12088721d9c9.png" alt="Building foundation artifact 2"></div>
+      <div class="modal-gallery-frame"><img src="images/img-2e21c447d810.png" alt="Building foundation artifact 3"></div>
+      <div class="modal-gallery-frame"><img src="images/img-a399b68338fe.png" alt="Building foundation artifact 4"></div>
+      <div class="modal-gallery-frame"><img src="images/img-afb64fe0a0be.png" alt="Building foundation artifact 5"></div>
+    </div>
+    <div class="modal-gallery" id="galleryRewardSystems" data-gallery-id="reward-systems">
+      <div class="modal-gallery-frame"><img src="images/img-5ec0b40eedba.jpg" alt="Reward system artifact 1"></div>
+      <div class="modal-gallery-frame padded"><img src="images/img-3dd7166bda1b.jpg" alt="Reward system artifact 2"></div>
+      <div class="modal-gallery-frame"><img src="images/img-cdad3cc13792.jpg" alt="Reward system artifact 3"></div>
+      <div class="modal-gallery-frame"><img src="images/img-e225e86622ff.jpg" alt="Reward system artifact 4"></div>
+    </div>
+    <div class="modal-gallery" id="galleryDesignLanguage" data-gallery-id="design-language">
+      <div class="modal-gallery-frame"><img src="images/img-0f7890dd3c51.jpg" alt="Design language artifact 1"></div>
+      <div class="modal-gallery-frame"><img src="images/img-2a5d6459518b.jpg" alt="Design language artifact 2"></div>
+      <div class="modal-gallery-frame"><img src="images/img-3d9db23db9a8.jpg" alt="Design language artifact 3"></div>
+      <div class="modal-gallery-frame"><img src="images/img-516a32d0f15b.jpg" alt="Design language artifact 4"></div>
+    </div>
+    <div class="modal-gallery" id="galleryStressTesting" data-gallery-id="stress-testing">
+      <div class="modal-gallery-frame"><img src="images/img-075ba17e3f9c.jpg" alt="Stress testing artifact 1"></div>
+      <div class="modal-gallery-frame"><img src="images/img-436454c10175.jpg" alt="Stress testing artifact 2"></div>
+      <div class="modal-gallery-frame"><img src="images/img-232f63d2d168.jpg" alt="Tinker Village bug tracker in Notion"></div>
+    </div>
+    <div class="modal-gallery" id="galleryUserRetention" data-gallery-id="user-retention">
+      <div class="modal-gallery-frame"><img src="images/img-555f7f53060a.jpg" alt="User retention analytics 1"></div>
+      <div class="modal-gallery-frame"><img src="images/img-cfcff4193c70.jpg" alt="User retention analytics 2"></div>
+      <div class="modal-gallery-frame"><img src="images/img-8affbd05f9b2.jpg" alt="User retention analytics 3"></div>
+      <div class="modal-gallery-frame"><img src="images/img-39e46fec38b5.jpg" alt="User retention analytics 4"></div>
+      <div class="modal-gallery-frame"><img src="images/img-b75fcf9e9b3a.jpg" alt="User retention analytics 5"></div>
+      <div class="modal-gallery-frame"><img src="images/img-02f008ed44db.jpg" alt="User retention analytics 6"></div>
+    </div>
+    <div class="modal-gallery" id="galleryInterfaceExecution" data-gallery-id="interface-execution">
+      <div class="modal-gallery-frame"><img src="images/img-8e7f504f888b.jpg" alt="Teacher dashboard — highlights, in-progress and upcoming activities"></div>
+      <div class="modal-gallery-frame"><img src="images/img-62ba163056aa.jpg" alt="Onboarding nudge — create your first post"></div>
+      <div class="modal-gallery-frame"><img src="images/img-8444475e6de0.jpg" alt="Feed walkthrough tooltip"></div>
+      <div class="modal-gallery-frame"><img src="images/img-1ea58e799a11.jpg" alt="Certificate progress — Learning Designer and Senior Learning Designer tracks"></div>
+      <div class="modal-gallery-frame"><img src="images/img-7ca6da5961cf.jpg" alt="Course assets dropdown and answer key previews"></div>
+      <div class="modal-gallery-frame"><img src="images/img-2a552dfae8c5.jpg" alt="Communities — selected community and member list"></div>
+      <div class="modal-gallery-frame"><img src="images/img-20d9720c616e.jpg" alt="Events page detail"></div>
+    </div>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-keywords" id="modalKeywords"></div>
+    <p class="modal-desc" id="modalDesc"></p>
+  </div>
+</div>
+
+<footer class="page-footer">
+  <span>last updated jul'26</span>
+  <span>©2026 bhairavi thul</span>
+</footer>
+
+<script>
+  const overlay   = document.getElementById('outcomeModal');
+  const modalBox  = document.getElementById('modalBox');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalDesc  = document.getElementById('modalDesc');
+  const modalKeywords = document.getElementById('modalKeywords');
+  const allGalleries = document.querySelectorAll('.modal-gallery');
+
+  function openModal(card) {
+    modalTitle.textContent = card.dataset.title || '';
+    modalDesc.textContent  = card.dataset.desc || '';
+
+    const isGallery = card.dataset.gallery === 'true';
+    modalBox.classList.toggle('gallery', isGallery);
+
+    allGalleries.forEach(g => {
+      g.classList.toggle('active', isGallery && g.dataset.galleryId === card.dataset.galleryId);
+    });
+
+    const words = (card.dataset.keywords || '').split('•').map(w => w.trim()).filter(Boolean);
+    modalKeywords.innerHTML = words.map(w => `<span>${w}</span>`).join('<span class="dot">•</span>');
+
+    overlay.classList.add('active');
+  }
+  function closeModal() { overlay.classList.remove('active'); }
+
+  document.querySelectorAll('.bento-card').forEach(card => {
+    card.addEventListener('click', () => openModal(card));
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(card); }
+    });
+  });
+
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+  // Copy email to clipboard
+  const copyBtn = document.getElementById('copyEmailBtn');
+  const copyIcon = document.getElementById('copyIcon');
+  const emailText = document.getElementById('contactEmail').textContent.trim();
+  const defaultIcon = copyIcon.innerHTML;
+  const checkIcon = '<path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+  copyBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(emailText).then(() => {
+      copyIcon.innerHTML = checkIcon;
+      copyBtn.title = 'Copied!';
+      setTimeout(() => {
+        copyIcon.innerHTML = defaultIcon;
+        copyBtn.title = 'Copy email';
+      }, 1500);
+    });
+  });
+</script>
+
+</body>
+</html>

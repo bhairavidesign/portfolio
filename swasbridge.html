@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SwasBridge — Bhairavi Thul</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #FBF0F2;
+    --nav-bg: #C4697B;
+    --pink-card: #EFC5CB;
+    --pink-dark: #B85468;
+    --text-dark: #2C1A20;
+    --text-mid: #6B3A48;
+    --white: #fff;
+    --outcome-border: #D9909C;
+    --page-gutter: 2.5rem;
+  }
+
+  body {
+    font-family: "DM Sans", sans-serif;
+    background: var(--bg);
+    color: var(--text-dark);
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--nav-bg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--page-gutter);
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-home {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    text-decoration: none;
+    cursor: pointer;
+    opacity: 0.92;
+    transition: opacity 0.2s;
+  }
+  .nav-home:hover { opacity: 1; }
+  .nav-home svg { width: 24px; height: 24px; }
+
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    padding: 6px;
+    cursor: pointer;
+  }
+  .nav-toggle svg { width: 22px; height: 22px; }
+
+  .nav-dropdown {
+    display: none;
+    flex-direction: column;
+    gap: 0.9rem;
+    position: absolute;
+    top: 60px;
+    right: var(--page-gutter);
+    background: var(--nav-bg);
+    padding: 1rem 1.3rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 28px rgba(44,26,32,0.28);
+    z-index: 150;
+  }
+  .nav-dropdown.active { display: flex; }
+  .nav-dropdown a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.92rem;
+    opacity: 0.92;
+  }
+  .nav-dropdown a:hover { opacity: 1; }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .nav-links a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    opacity: 0.92;
+    transition: opacity 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; }
+
+  .linkedin-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background: var(--white);
+    border-radius: 6px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .linkedin-btn:hover { opacity: 0.85; }
+  .linkedin-btn svg { width: 18px; height: 18px; fill: var(--nav-bg); }
+
+  /* ── ARTICLE SHELL ── */
+  .cs-article {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem var(--page-gutter) 0.5rem;
+  }
+
+  /* ── CASE STUDY HEADER ── */
+  .cs-tags {
+    text-align: center;
+    margin-bottom: 1.2rem;
+  }
+  .cs-tags span {
+    display: inline-block;
+    background: var(--pink-card);
+    color: var(--text-mid);
+    font-size: 0.85rem;
+    font-weight: 400;
+    padding: 0.35rem 1.2rem;
+    border-radius: 30px;
+    letter-spacing: 0.01em;
+  }
+
+  .cs-title {
+    text-align: center;
+    font-size: clamp(2.4rem, 5vw, 3.4rem);
+    font-weight: 700;
+    color: var(--pink-dark);
+    letter-spacing: -0.02em;
+    margin-bottom: 1.4rem;
+  }
+
+  .cs-cover {
+    width: 100%;
+    height: 260px;
+    background: var(--pink-card);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-mid);
+    font-size: 0.9rem;
+    margin-bottom: 1.8rem;
+  }
+  .cs-cover { overflow: hidden; padding: 0; }
+  .cs-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .cs-quote {
+    border-left: 3px solid var(--pink-dark);
+    padding: 0.3rem 0 0.3rem 1.4rem;
+    font-style: italic;
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: var(--text-dark);
+    max-width: 760px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+  }
+
+  .cs-meta {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1.5px solid var(--pink-card);
+  }
+  .cs-meta-item { text-align: center; }
+  .cs-meta-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--pink-dark);
+    margin-bottom: 0.25rem;
+  }
+  .cs-meta-value {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+
+  /* ── SECTION TYPOGRAPHY ── */
+  .cs-heading {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--pink-dark);
+    margin: 3rem 0 1rem;
+  }
+  .cs-heading:first-of-type { margin-top: 0; }
+
+  .cs-eyebrow {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--pink-dark);
+    opacity: 0.8;
+    margin-bottom: 0.3rem;
+  }
+
+  .cs-para {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.75;
+    margin-bottom: 1rem;
+  }
+
+  .cs-list {
+    margin: 0 0 1rem 1.2rem;
+  }
+  .cs-list li {
+    font-size: 0.93rem;
+    font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.75;
+    margin-bottom: 0.5rem;
+  }
+  .cs-list li strong {
+    color: var(--text-dark);
+    font-weight: 600;
+  }
+
+  /* ── IMAGE PLACEHOLDERS ── */
+  .img-ph {
+    width: 100%;
+    min-height: 220px;
+    background: var(--white);
+    border: 1.5px dashed var(--outcome-border);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-mid);
+    font-size: 0.82rem;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .img-caption {
+    text-align: center;
+    font-size: 0.82rem;
+    font-style: italic;
+    color: var(--text-mid);
+    margin-top: 0.6rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .img-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin-top: 0.5rem;
+  }
+  .img-pair .img-ph { margin-top: 0; }
+
+  /* ── REAL IMAGE FRAMES ── */
+  .phone-shot-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+  .phone-shot {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    display: block;
+    border-radius: 22px;
+    box-shadow: 0 8px 24px rgba(184, 84, 104, 0.14);
+  }
+
+  .wide-shot {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 16px;
+    margin-top: 0.5rem;
+  }
+
+  .diagram-shot-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+  .diagram-shot {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    display: block;
+    border-radius: 14px;
+  }
+
+  .photo-shot {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 16px;
+    object-fit: cover;
+    margin-top: 0.5rem;
+  }
+
+  .dark-frame {
+    background: var(--text-dark);
+    border-radius: 18px;
+    padding: 1.5rem;
+    margin-top: 0.5rem;
+  }
+  .dark-frame .diagram-shot-wrap { margin-top: 0; }
+
+  .flow-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.8rem;
+    margin-top: 0.5rem;
+    align-items: start;
+  }
+  .flow-grid .flow-step-label,
+  .flow-grid .flow-caption { margin-top: 0; }
+
+  .quote-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+  }
+  .quote-grid .quote-card { margin-bottom: 0; }
+
+  /* ── STAKEHOLDER FOCUS AREAS ── */
+  .icon-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .icon-card {
+    background: var(--white);
+    border-radius: 18px;
+    padding: 1.4rem 1.1rem;
+    text-align: center;
+  }
+  .icon-ph {
+    width: 46px;
+    height: 46px;
+    margin: 0 auto 0.8rem;
+    border-radius: 50%;
+    background: var(--pink-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+  }
+  .icon-card p {
+    font-size: 0.83rem;
+    font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.5;
+  }
+
+  /* ── USER RESEARCH STATS ── */
+  .research-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 0.6rem;
+  }
+  .research-stat {
+    background: var(--white);
+    border-radius: 18px;
+    padding: 1.3rem 1rem;
+    text-align: center;
+  }
+  .research-stat .emoji { font-size: 1.6rem; margin-bottom: 0.4rem; }
+  .research-stat .pct {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--pink-dark);
+    margin-bottom: 0.3rem;
+  }
+  .research-stat .label {
+    font-size: 0.78rem;
+    font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.4;
+  }
+  .research-sample {
+    text-align: center;
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--text-mid);
+    margin: 0.6rem 0 1.5rem;
+  }
+
+  /* ── ANALYTICS LINKS ── */
+  .link-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 1rem 0 1.5rem;
+  }
+  .link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--white);
+    border: 1.5px solid var(--pink-dark);
+    color: var(--pink-dark);
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.65rem 1.3rem;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: 0.2s;
+  }
+  .link-btn:hover { background: var(--pink-dark); color: var(--white); }
+
+  /* ── CALLOUT / HIGHLIGHT / QUOTE COMPONENTS ── */
+  .cs-callout {
+    background: var(--pink-card);
+    border-radius: 14px;
+    padding: 1rem 1.3rem;
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: var(--text-dark);
+    line-height: 1.6;
+    margin: 1rem 0 1.5rem;
+  }
+  .cs-callout .emoji { font-size: 1.1rem; line-height: 1.4; }
+
+  .cs-highlight {
+    display: inline-block;
+    background: var(--white);
+    border: 1.5px solid var(--pink-dark);
+    color: var(--pink-dark);
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.4rem 0.9rem;
+    border-radius: 30px;
+    margin: 0.7rem 0 1.3rem;
+  }
+
+  .flow-caption {
+    text-align: center;
+    font-style: italic;
+    font-size: 0.88rem;
+    color: var(--text-mid);
+    margin: 1.6rem 0 0.5rem;
+  }
+
+  .flow-step-label {
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin: 1.6rem 0 0.5rem;
+  }
+
+  .quote-card {
+    background: var(--white);
+    border-left: 3px solid var(--pink-dark);
+    border-radius: 0 14px 14px 0;
+    padding: 1.1rem 1.4rem;
+    margin-bottom: 1.2rem;
+  }
+  .quote-card .q {
+    font-style: italic;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+  }
+  .quote-card .pp {
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: var(--text-mid);
+    margin-bottom: 0.4rem;
+  }
+  .quote-card .hl {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--pink-dark);
+  }
+
+  .figma-embed {
+    width: 100%;
+    height: 460px;
+    border: none;
+    border-radius: 18px;
+    margin-top: 0.5rem;
+  }
+
+  /* ── FOOTER NAV ── */
+  .cs-footer {
+    text-align: center;
+    margin-top: 3.5rem;
+    padding-top: 2.5rem;
+    border-top: 1.5px solid var(--pink-card);
+  }
+  .cs-footer > a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--pink-dark);
+    font-weight: 600;
+    font-size: 0.92rem;
+    text-decoration: none;
+    margin-top: 1.6rem;
+  }
+  .cs-footer > a:hover { text-decoration: underline; }
+
+  .cs-next-heading {
+    text-align: center;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--pink-dark);
+    opacity: 0.8;
+    margin-bottom: 1rem;
+  }
+
+  .cs-next-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+  }
+
+  .cs-next-card {
+    background: var(--white);
+    border-radius: 18px;
+    overflow: hidden;
+    display: block;
+    text-align: left;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .cs-next-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(184, 84, 104, 0.18);
+  }
+
+  .cs-next-thumb {
+    width: 100%;
+    height: 120px;
+    background: var(--bg);
+    border-bottom: 1.5px dashed var(--outcome-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-mid);
+    font-size: 0.8rem;
+  }
+  .cs-next-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cs-next-thumb.dark-thumb { background: var(--text-dark); padding: 0.5rem; box-sizing: border-box; }
+  .cs-next-thumb.dark-thumb img { border-radius: 8px; }
+
+  .cs-next-body { padding: 1rem 1.2rem; }
+
+  .cs-next-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.3rem;
+  }
+
+  .cs-next-desc {
+    font-size: 0.82rem;
+    font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.5;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    :root { --page-gutter: 1.25rem; }
+    .cs-article { padding: 2rem 1.25rem 0.5rem; }
+    .cs-cover { height: 170px; }
+    .img-pair { grid-template-columns: 1fr; }
+    .icon-grid { grid-template-columns: repeat(2, 1fr); }
+    .research-stats { grid-template-columns: repeat(2, 1fr); }
+    .cs-meta { gap: 1.8rem; }
+    .cs-next-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .nav-toggle { display: flex; align-items: center; justify-content: center; }
+    .flow-grid { grid-template-columns: 1fr; }
+    .quote-grid { grid-template-columns: 1fr; }
+  }
+  /* ── PAGE FOOTER ── */
+  .page-footer {
+    max-width: 900px;
+    margin: 3rem auto 0;
+    padding: 2rem var(--page-gutter) 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--pink-card);
+    font-size: 0.8rem;
+    color: var(--text-mid);
+    text-transform: lowercase;
+  }
+  .page-footer span { letter-spacing: 0.01em; }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-home" href="index.html" title="Home">
+    <!-- Rounded filled home icon -->
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2.5L2 10.5V21C2 21.55 2.45 22 3 22H9V16H15V22H21C21.55 22 22 21.55 22 21V10.5L12 2.5Z" fill="white"/>
+    </svg>
+  </a>
+  <div class="nav-links">
+    <a href="http://www.linkedin.com/in/bhairavithul" target="_blank" rel="noopener" class="linkedin-btn" title="LinkedIn">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <rect width="24" height="24" rx="5" fill="var(--nav-bg)"/>
+        <path fill="white" d="M7.2 5.5a1.7 1.7 0 1 1 0 3.4 1.7 1.7 0 0 1 0-3.4zM5.7 10.5h3v9h-3v-9zm4.8 0h2.9v1.3h.04c.4-.77 1.4-1.58 2.88-1.58 3.08 0 3.65 2.03 3.65 4.67v5.58H17v-4.95c0-1.18-.02-2.7-1.65-2.7-1.65 0-1.9 1.29-1.9 2.62v5.03H10.5v-9z"/>
+      </svg>
+    </a>
+  </div>
+  <button class="nav-toggle" aria-label="Open menu" onclick="document.getElementById('navDropdown').classList.toggle('active'); this.classList.toggle('active')">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 6h16M4 12h16M4 18h16" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </button>
+  <div class="nav-dropdown" id="navDropdown">
+    <a href="http://www.linkedin.com/in/bhairavithul" target="_blank" rel="noopener">LinkedIn ↗</a>
+  </div>
+</nav>
+
+<div class="cs-article">
+
+  <!-- HEADER -->
+  <div class="cs-tags"><span>Health Insurance&nbsp;&nbsp;•&nbsp;&nbsp;Wireframing&nbsp;&nbsp;•&nbsp;&nbsp;User Research</span></div>
+  <h1 class="cs-title">SwasBridge</h1>
+
+  <div class="cs-cover"><img src="images/img-5703128f171c.jpg" alt="SwasBridge cover"" alt="SwasBridge cover"></div>
+
+  <p class="cs-quote">
+    SwasBridge is a health insurance platform designed to help users not just file claims but actively
+    engage with their wellness benefits. While most insurance platforms focus on post-crisis interactions,
+    SwasBridge reimagines the experience to prioritize proactive care, making wellness accessible, clear,
+    and consistent.
+  </p>
+
+  <div class="cs-meta">
+    <div class="cs-meta-item">
+      <div class="cs-meta-label">Duration</div>
+      <div class="cs-meta-value">06 months</div>
+    </div>
+    <div class="cs-meta-item">
+      <div class="cs-meta-label">Role</div>
+      <div class="cs-meta-value">Product Designer</div>
+    </div>
+    <div class="cs-meta-item">
+      <div class="cs-meta-label">Coverage</div>
+      <div class="cs-meta-value">Tier 1 & 2 Cities, India</div>
+    </div>
+  </div>
+
+  <!-- MY ROLE -->
+  <h2 class="cs-heading">My Role — What was the contribution to the project?</h2>
+  <p class="cs-para">
+    At SwasBridge, I led the design for the health and wellness section, enabling users to navigate and
+    use preventive care features. I conducted primary research with both insurance users and aggregators
+    like Ditto, translating insights into clear user flows.
+  </p>
+  <p class="cs-para" style="margin-bottom:0.5rem;">At SwasBridge, I focused on:</p>
+  <ul class="cs-list">
+    <li>Identifying key user pain points through primary research</li>
+    <li>Benchmarking existing platforms to define opportunities</li>
+    <li>Designing intuitive wireframes to reduce information overload</li>
+  </ul>
+  <img class="photo-shot" src="images/img-6f9914cfebfe.jpg" alt="Bhairavi working on SwasBridge">
+  <p class="img-caption">Above: That's me, working on SwasBridge</p>
+
+  <!-- PROBLEM STATEMENT -->
+  <h2 class="cs-heading">Problem Statement — What were the issues faced by stakeholders?</h2>
+  <p class="cs-para">
+    SwasBridge aimed to enter the health insurance space with a fresh perspective: one that goes beyond
+    traditional claims and paperwork. They wanted to design an experience that not only simplified health
+    coverage, but also empowered users to actively engage with their wellness benefits.
+  </p>
+  <p class="cs-para">
+    While most insurance platforms focus on crisis management, SwasBridge saw an opportunity to stand out
+    by creating a product that made preventive care and wellness feel accessible, valuable, and easy to use.
+  </p>
+
+  <!-- OUTCOME: PREVENTIVE HEALTH -->
+  <h2 class="cs-heading">Outcome — How did the designs help the users?</h2>
+  <p class="cs-eyebrow">Enhancing Preventive Health Engagement</p>
+  <p class="cs-para">
+    Improved user engagement with wellness features by simplifying access and navigation, leading to
+    better awareness around preventive care and early diagnosis.
+  </p>
+  <img class="photo-shot" src="images/img-3a9744fd63ec.jpg" alt="Discussion with client and teammates">
+  <p class="img-caption">Above: Discussion with the client and teammates</p>
+
+  <!-- DESIGN PROCESS -->
+  <h2 class="cs-heading">Design Process — How were the challenges addressed?</h2>
+  <p class="cs-para">To address the requirements, I followed the double diamond method.</p>
+  <div class="dark-frame">
+  <div class="diagram-shot-wrap"><img class="diagram-shot" src="images/img-308264188030.png" alt="Double diamond design process"></div>
+  </div>
+  <div class="cs-callout">
+    <span class="emoji">💡</span>
+    <span>Client feedback played a crucial role which helped shape the designs better — feedback occurred
+    all the way from gathering requirements to designing the screens.</span>
+  </div>
+
+  <!-- DESIGN SYSTEM -->
+  <h2 class="cs-heading">Design System — How was consistency maintained throughout?</h2>
+  <p class="cs-para">Below is a glimpse of the design system created on Figma to maintain consistency:</p>
+  <img class="wide-shot" src="images/img-f3d38224673f.png" alt="SwasBridge design system">
+
+  <!-- USER FLOWS -->
+  <h2 class="cs-heading">User Flows — How was the user's actions demonstrated?</h2>
+  <img class="wide-shot" src="images/img-65bbd9641560.png" alt="SwasBridge user flows">
+
+  <!-- WIREFRAMES -->
+  <h2 class="cs-heading">Wireframes — How was all the data converted to designs?</h2>
+  <p class="cs-para">
+    After a lot of benchmarking, analyzing data and pain points, and creating the user flows, I designed
+    the wireframes. Here, I've shown how the BMR calculator functions in happy and sad scenarios.
+  </p>
+
+  <div class="flow-grid">
+    <div class="flow-step">
+      <p class="flow-step-label">Flow Start ⬇️</p>
+      <div class="cs-highlight">✅ As an existing user, the data is pre-filled</div>
+      <div class="phone-shot-wrap"><img class="phone-shot" src="images/img-5c27ee46e4d7.png" alt="BMR calculator flow start"></div>
+    </div>
+    <div class="flow-step">
+      <p class="flow-step-label">STP ⬇️</p>
+      <div class="cs-highlight">✅ The user is shown they're healthy, with numbers and charts</div>
+      <div class="phone-shot-wrap"><img class="phone-shot" src="images/img-c5818c4c6928.png" alt="BMR calculator healthy result"></div>
+    </div>
+    <div class="flow-step">
+      <p class="flow-step-label">NSTP ➡️</p>
+      <div class="cs-highlight">✅ The user is shown they're in the obese range and need to watch for symptoms</div>
+      <div class="phone-shot-wrap"><img class="phone-shot" src="images/img-c6a0ca9343ab.png" alt="BMR calculator obese range result"></div>
+    </div>
+    <div class="flow-step">
+      <div class="cs-highlight">✅ As the user is overwhelmed with the bad news, the platform recommends precautions</div>
+      <div class="phone-shot-wrap"><img class="phone-shot" src="images/img-0af55d475595.png" alt="BMR calculator recommended precautions"></div>
+    </div>
+  </div>
+
+  <!-- UI DESIGN -->
+  <h2 class="cs-heading">UI Design — How did the wireframes turn out?</h2>
+  <p class="cs-para">
+    To keep the focus on UI and functionality, I'm showing the booking-appointment flow. A colour pop was
+    a necessity after working on the black and white wireframes!
+  </p>
+
+  <div class="flow-grid">
+    <div class="flow-step">
+      <p class="flow-caption">Apply filters to find a suitable doctor</p>
+      <div class="phone-shot-wrap"><img class="phone-shot" src="images/img-c2a3d0c482c1.png" alt="Apply filters to find a doctor"></div>
+      <div class="cs-highlight">✅ This screen empowers users to personalize their search, saving time by showing only relevant doctors.</div>
+    </div>
+    <div class="flow-step">
+      <p class="flow-caption">View detailed doctor info + book a consultation slot</p>
+      <div class="phone-shot-wrap"><img class="phone-shot" src="images/img-86f073ae8700.png" alt="Doctor details and consultation booking"></div>
+      <div class="cs-highlight">✅ This screen builds trust and lets users confidently book a doctor after reviewing key details.</div>
+    </div>
+    <div class="flow-step">
+      <p class="flow-caption">Confirmed successful payment</p>
+      <div class="phone-shot-wrap"><img class="phone-shot" src="images/img-d154b209fb49.png" alt="Payment confirmation screen"></div>
+      <div class="cs-highlight">✅ Gives users closure and confirmation, increasing reliability and trust in the platform.</div>
+    </div>
+  </div>
+  <!-- PROTOTYPE -->
+  <h2 class="cs-heading">Prototype — How were the screens brought to life?</h2>
+  <iframe class="figma-embed" src="https://embed.figma.com/proto/Avs4kGS4hdctqqYlLO5dDX/Portfolio---Resume?node-id=630-7302&t=2khhmDs2FClarbTy-0&scaling=scale-down&content-scaling=fixed&page-id=551%3A395&starting-point-node-id=630%3A7302&embed-host=notion&footer=false&theme=system" allowfullscreen loading="lazy"></iframe>
+
+  <!-- OUTCOME: COLLABORATION -->
+  <h2 class="cs-heading">Outcome — How was the collaboration with the POs and Health & Wellness team?</h2>
+  <ul class="cs-list">
+    <li><strong>Continuous Communication:</strong> Always in the loop with both teams, understanding their restrictions and possibilities.</li>
+    <li><strong>Challenges & Solutions:</strong> Early-stage friction around creating a smooth experience was resolved after a few workshops, getting all teams on the same page.</li>
+  </ul>
+
+  <!-- LESSONS -->
+  <h2 class="cs-heading">Lessons - What I'd Carry Into the Next Project?</h2>
+  <ul class="cs-list">
+    <li><strong>Cadence over convenience:</strong> Client conversations happened around milestones rather than on a fixed schedule. A standing check-in, even a short one, would have caught ambiguity in requirements sooner and kept the design process moving without waiting on clarification.</li>
+  </ul>
+
+  <!-- STAKEHOLDER RESEARCH -->
+  <h2 class="cs-heading">Stakeholder Research — How was the approach with stakeholders?</h2>
+  <p class="cs-eyebrow">Objective</p>
+  <p class="cs-para">
+    To design a user-centered health insurance experience that simplifies plan navigation, highlights
+    wellness benefits, and encourages proactive engagement — making insurance feel less intimidating and
+    more human.
+  </p>
+  <p class="cs-eyebrow">Stakeholders Involved</p>
+  <ul class="cs-list">
+    <li><strong>Product Owners:</strong> Provided insights into business goals, the need to streamline health insurance processes, and key performance indicators.</li>
+    <li><strong>Health & Wellness Team:</strong> Discussed technical requirements for integration with the given requirements and making the experience user-centric.</li>
+  </ul>
+  <img class="wide-shot" src="images/img-beafce1b84ff.jpg" alt="SwasBridge task board on Asana/Trello">
+  <p class="img-caption">Above: We maintained SwasBridge on Asana</p>
+
+  <!-- USER RESEARCH -->
+  <h2 class="cs-heading">User Research — What were the pain points faced by the users?</h2>
+  <p class="cs-eyebrow">From Insurance to Assurance</p>
+  <p class="cs-para">
+    Health insurance isn't just about claims, it's about care. Users want to feel supported even before
+    something goes wrong. But current platforms often confuse, overwhelm, or under-deliver on wellness
+    benefits.
+  </p>
+  <p class="cs-para">
+    There's a strong opportunity to shift from transactional experiences to thoughtful, wellness-first
+    journeys — designed to inform, support, and build lasting trust.
+  </p>
+
+  <div class="quote-grid">
+    <div class="quote-card">
+      <div class="q">"Didn't understand what they were covered for"</div>
+      <div class="pp"><strong style="color:var(--text-dark); font-weight:600;">Pain Point:</strong> Users were confused about what their policy actually covered.</div>
+      <div class="hl">✅ Highlight: Lack of transparency and overwhelming jargon leads to mistrust.</div>
+    </div>
+
+    <div class="quote-card">
+      <div class="q">"Felt like they were selling a product, not guiding"</div>
+      <div class="pp"><strong style="color:var(--text-dark); font-weight:600;">Pain Point:</strong> Users often felt like agents or platforms were transactional.</div>
+      <div class="hl">✅ Highlight: Emotional gap — users want assurance, not salesy experiences.</div>
+    </div>
+
+    <div class="quote-card">
+      <div class="q">"Wellness benefits were not visible or emphasized"</div>
+      <div class="pp"><strong style="color:var(--text-dark); font-weight:600;">Pain Point:</strong> Users didn't know about or engage with wellness features in their plan.</div>
+      <div class="hl">✅ Highlight: Benefits beyond hospitalization (like fitness, mental health) aren't being surfaced clearly.</div>
+    </div>
+
+    <div class="quote-card">
+      <div class="q">"Too many documents, felt exhausting"</div>
+      <div class="pp"><strong style="color:var(--text-dark); font-weight:600;">Pain Point:</strong> Users mentioned friction due to excessive paperwork and policy documents.</div>
+      <div class="hl">✅ Highlight: Even digitally, insurance still "feels like admin work," not support.</div>
+    </div>
+  </div>
+
+  <!-- SECONDARY RESEARCH -->
+  <h2 class="cs-heading">Secondary Research — How were the competitors benchmarked?</h2>
+  <p class="cs-para">
+    As part of secondary research, I benchmarked key insurance and wellness platforms including
+    <strong style="color:var(--text-dark); font-weight:600;">HDFC Ergo, ICICI Lombard, Niva Bhupa,</strong>
+    and <strong style="color:var(--text-dark); font-weight:600;">Aditya Birla</strong>. I compared features
+    like claims, hospitality and health, non-medical, waiting period, and others to identify gaps and
+    opportunities.
+  </p>
+  <img class="wide-shot" src="images/img-4d02305dc653.png" alt="Competitor features comparison table">
+  <p class="img-caption">Above: Glimpse of the competitor features comparison</p>
+
+  <!-- FOOTER -->
+  <div class="cs-footer">
+    <p class="cs-next-heading">Explore more work</p>
+    <div class="cs-next-grid">
+      <a class="cs-next-card" href="index.html#tinker-village">
+        <div class="cs-next-thumb dark-thumb"><img src="images/img-b69f07c2fc18.jpg" alt="Tinker Village"></div>
+        <div class="cs-next-body">
+          <div class="cs-next-title">Tinker Village</div>
+          <div class="cs-next-desc">Stabilizing a platform through systems thinking, design systems &amp; sprint management.</div>
+        </div>
+      </a>
+      <a class="cs-next-card" href="wellguard.html">
+        <div class="cs-next-thumb"><img src="images/img-9f5c0dfd3d87.jpg" alt="WellGuard"></div>
+        <div class="cs-next-body">
+          <div class="cs-next-title">WellGuard</div>
+          <div class="cs-next-desc">Redesigning a US healthcare data platform for payers, providers, members &amp; governments.</div>
+        </div>
+      </a>
+      <a class="cs-next-card" href="dg-lock.html">
+        <div class="cs-next-thumb"><img src="images/img-63b7c36bcb51.png" alt="DG Lock"></div>
+        <div class="cs-next-body">
+          <div class="cs-next-title">DG Lock</div>
+          <div class="cs-next-desc">Designing a secure digital locker for citizens and businesses in a next-gen smart city.</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<footer class="page-footer">
+  <span>last updated jul'26</span>
+  <span>©2026 bhairavi thul</span>
+</footer>
+</body>
+</html>
