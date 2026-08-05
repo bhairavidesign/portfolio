@@ -5,7 +5,7 @@ A hand-crafted, lightweight portfolio designed to balance systems logic with hum
 ---
 
 ### 🎨 Design & UX Intent
-- **System Logic meets Personality:** Structured bento-grid layouts grounded with personal storytelling, warmth, and brand identity.
+- **System Logic with Personal Touch:** Structured bento-grid layouts grounded with personal storytelling, warmth, and brand identity.
 - **Defensive Edge-Case Design:** Custom 404 recovery page designed with delightful microcopy to catch broken routes and redirect users back to safety.
 - **Conversion-Focused CTAs:** Frictionless scheduling path via Calendly and direct clipboard copy interactions.
 
