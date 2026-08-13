@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DG Lock — Bhairavi Thul</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #FBF0F2;
+    --nav-bg: #C4697B;
+    --pink-card: #EFC5CB;
+    --pink-dark: #B85468;
+    --text-dark: #2C1A20;
+    --text-mid: #6B3A48;
+    --white: #fff;
+    --outcome-border: #D9909C;
+    --page-gutter: 2.5rem;
+  }
+
+  body {
+    font-family: "DM Sans", sans-serif;
+    background: var(--bg);
+    color: var(--text-dark);
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--nav-bg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--page-gutter);
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-home {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    text-decoration: none;
+    cursor: pointer;
+    opacity: 0.92;
+    transition: opacity 0.2s;
+  }
+  .nav-home:hover { opacity: 1; }
+  .nav-home svg { width: 24px; height: 24px; }
+
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    padding: 6px;
+    cursor: pointer;
+  }
+  .nav-toggle svg { width: 22px; height: 22px; }
+
+  .nav-dropdown {
+    display: none;
+    flex-direction: column;
+    gap: 0.9rem;
+    position: absolute;
+    top: 60px;
+    right: var(--page-gutter);
+    background: var(--nav-bg);
+    padding: 1rem 1.3rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 28px rgba(44,26,32,0.28);
+    z-index: 150;
+  }
+  .nav-dropdown.active { display: flex; }
+  .nav-dropdown a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.92rem;
+    opacity: 0.92;
+  }
+  .nav-dropdown a:hover { opacity: 1; }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .nav-links a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    opacity: 0.92;
+    transition: opacity 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; }
+
+  .linkedin-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background: var(--white);
+    border-radius: 6px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .linkedin-btn:hover { opacity: 0.85; }
+  .linkedin-btn svg { width: 18px; height: 18px; fill: var(--nav-bg); }
+
+  /* ── ARTICLE SHELL ── */
+  .cs-article {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem var(--page-gutter) 0.5rem;
+  }
+
+  /* ── CASE STUDY HEADER ── */
+  .cs-tags {
+    text-align: center;
+    margin-bottom: 1.2rem;
+  }
+  .cs-tags span {
+    display: inline-block;
+    background: var(--pink-card);
+    color: var(--text-mid);
+    font-size: 0.85rem;
+    font-weight: 400;
+    padding: 0.35rem 1.2rem;
+    border-radius: 30px;
+    letter-spacing: 0.01em;
+  }
+
+  .cs-title {
+    text-align: center;
+    font-size: clamp(2.4rem, 5vw, 3.4rem);
+    font-weight: 700;
+    color: var(--pink-dark);
+    letter-spacing: -0.02em;
+    margin-bottom: 1.4rem;
+  }
+
+  .cs-cover {
+    width: 100%;
+    height: 260px;
+    background: var(--pink-card);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-mid);
+    font-size: 0.9rem;
+    margin-bottom: 1.8rem;
+  }
+  .cs-cover { overflow: hidden; padding: 0; }
+  .cs-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .cs-quote {
+    border-left: 3px solid var(--pink-dark);
+    padding: 0.3rem 0 0.3rem 1.4rem;
+    font-style: italic;
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: var(--text-dark);
+    max-width: 760px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+  }
+
+  .cs-meta {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1.5px solid var(--pink-card);
+  }
+  .cs-meta-item { text-align: center; }
+  .cs-meta-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--pink-dark);
+    margin-bottom: 0.25rem;
+  }
+  .cs-meta-value {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+
+  /* ── SECTION TYPOGRAPHY ── */
+  .cs-heading {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--pink-dark);
+    margin: 3rem 0 1rem;
+  }
+  .cs-heading:first-of-type { margin-top: 0; }
+
+  .cs-eyebrow {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--pink-dark);
+    opacity: 0.8;
+    margin-bottom: 0.3rem;
+  }
+
+  .cs-para {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.75;
+    margin-bottom: 1rem;
+  }
+
+  .cs-list {
+    margin: 0 0 1rem 1.2rem;
+  }
+  .cs-list li {
+    font-size: 0.93rem;
+    font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.75;
+    margin-bottom: 0.5rem;
+  }
+  .cs-list li strong {
+    color: var(--text-dark);
+    font-weight: 600;
+  }
+
+  /* ── IMAGE PLACEHOLDERS ── */
+  .img-ph {
+    width: 100%;
+    min-height: 220px;
+    background: var(--white);
+    border: 1.5px dashed var(--outcome-border);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-mid);
+    font-size: 0.82rem;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .img-caption {
+    text-align: center;
+    font-size: 0.82rem;
+    font-style: italic;
+    color: var(--text-mid);
+    margin-top: 0.6rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .img-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin-top: 0.5rem;
+  }
+  .img-pair .img-ph { margin-top: 0; }
+
+  /* ── REAL IMAGE FRAMES ── */
+  .phone-shot-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+  .phone-shot {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    display: block;
+    border-radius: 22px;
+    box-shadow: 0 8px 24px rgba(184, 84, 104, 0.14);
+  }
+
+  .wide-shot {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 16px;
+    margin-top: 0.5rem;
+  }
+
+  .diagram-shot-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+  .diagram-shot {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    display: block;
+    border-radius: 14px;
+  }
+
+  .photo-shot {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 16px;
+    object-fit: cover;
+    margin-top: 0.5rem;
+  }
+
+  .dark-frame {
+    background: var(--text-dark);
+    border-radius: 18px;
+    padding: 1.5rem;
+    margin-top: 0.5rem;
+  }
+  .dark-frame .wide-shot { margin-top: 0; }
+
+  /* ── STAKEHOLDER FOCUS AREAS ── */
+  .icon-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .icon-card {
+    background: var(--white);
+    border-radius: 18px;
+    padding: 1.4rem 1.1rem;
+    text-align: center;
+  }
+  .icon-ph {
+    width: 46px;
+    height: 46px;
+    margin: 0 auto 0.8rem;
+    border-radius: 50%;
+    background: var(--pink-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+  }
+  .icon-card p {
+    font-size: 0.83rem;
+    font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.5;
+  }
+
+  /* ── USER RESEARCH STATS ── */
+  .research-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 0.6rem;
+  }
+  .research-stat {
+    background: var(--white);
+    border-radius: 18px;
+    padding: 1.3rem 1rem;
+    text-align: center;
+  }
+  .research-stat .emoji { font-size: 1.6rem; margin-bottom: 0.4rem; }
+  .research-stat .pct {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--pink-dark);
+    margin-bottom: 0.3rem;
+  }
+  .research-stat .label {
+    font-size: 0.78rem;
+    font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.4;
+  }
+  .research-sample {
+    text-align: center;
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--text-mid);
+    margin: 0.6rem 0 1.5rem;
+  }
+
+  /* ── ANALYTICS LINKS ── */
+  .link-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 1rem 0 1.5rem;
+  }
+  .link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--white);
+    border: 1.5px solid var(--pink-dark);
+    color: var(--pink-dark);
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.65rem 1.3rem;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: 0.2s;
+  }
+  .link-btn:hover { background: var(--pink-dark); color: var(--white); }
+
+  /* ── FOOTER NAV ── */
+  .cs-footer {
+    text-align: center;
+    margin-top: 3.5rem;
+    padding-top: 2.5rem;
+    border-top: 1.5px solid var(--pink-card);
+  }
+  .cs-footer > a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--pink-dark);
+    font-weight: 600;
+    font-size: 0.92rem;
+    text-decoration: none;
+    margin-top: 1.6rem;
+  }
+  .cs-footer > a:hover { text-decoration: underline; }
+
+  .cs-next-heading {
+    text-align: center;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--pink-dark);
+    opacity: 0.8;
+    margin-bottom: 1rem;
+  }
+
+  .cs-next-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+  }
+
+  .cs-next-card {
+    background: var(--white);
+    border-radius: 18px;
+    overflow: hidden;
+    display: block;
+    text-align: left;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .cs-next-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(184, 84, 104, 0.18);
+  }
+
+  .cs-next-thumb {
+    width: 100%;
+    height: 120px;
+    background: var(--bg);
+    border-bottom: 1.5px dashed var(--outcome-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-mid);
+    font-size: 0.8rem;
+  }
+  .cs-next-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cs-next-thumb.dark-thumb { background: var(--text-dark); padding: 0.5rem; box-sizing: border-box; }
+  .cs-next-thumb.dark-thumb img { border-radius: 8px; }
+
+  .cs-next-body { padding: 1rem 1.2rem; }
+
+  .cs-next-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.3rem;
+  }
+
+  .cs-next-desc {
+    font-size: 0.82rem;
+    font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.5;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    :root { --page-gutter: 1.25rem; }
+    .cs-article { padding: 2rem 1.25rem 0.5rem; }
+    .cs-cover { height: 170px; }
+    .img-pair { grid-template-columns: 1fr; }
+    .icon-grid { grid-template-columns: repeat(2, 1fr); }
+    .research-stats { grid-template-columns: repeat(2, 1fr); }
+    .cs-meta { gap: 1.8rem; }
+    .cs-next-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .nav-toggle { display: flex; align-items: center; justify-content: center; }
+  }
+  /* ── PAGE FOOTER ── */
+  .page-footer {
+    max-width: 900px;
+    margin: 3rem auto 0;
+    padding: 2rem var(--page-gutter) 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--pink-card);
+    font-size: 0.8rem;
+    color: var(--text-mid);
+    text-transform: lowercase;
+  }
+  .page-footer span { letter-spacing: 0.01em; }
+
+  .img-quad {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+  }
+  .img-quad .img-ph { margin-top: 0; }
+  @media (max-width: 700px) {
+    .img-quad { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: 0;
+    column-gap: 1rem;
+    margin-bottom: 1.2rem;
+  }
+  .photo-grid .img-ph { margin-top: 0; min-height: 140px; }
+  .photo-grid .wide-shot { margin-top: 0; }
+  @media (max-width: 700px) {
+    .photo-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ── HEIGHT-MATCHED ROW (keeps aspect ratio, no forced 50/50 columns) ── */
+  .img-row-matched {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+  }
+  .img-row-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .matched-shot {
+    height: 320px;
+    width: auto;
+    max-width: 100%;
+    display: block;
+    border-radius: 22px;
+    box-shadow: 0 8px 24px rgba(184, 84, 104, 0.14);
+  }
+  @media (max-width: 700px) {
+    .matched-shot { height: 240px; }
+  }
+
+  /* ── NAV (matches index.html) ── */
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .nav-brand-icon {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .nav-brand-icon svg { width: 30px; height: 30px; }
+  .nav-brand-icon img { width: 30px; height: 30px; object-fit: contain; }
+  .nav-links a.nav-link {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    opacity: 0.92;
+    transition: opacity 0.2s;
+  }
+  .nav-links a.nav-link:hover { opacity: 1; }
+
+  /* ── CONTACT (matches index.html) ── */
+  .subpage-contact-wrap {
+    max-width: 900px;
+    margin: 3.5rem auto 0;
+    padding: 0 var(--page-gutter);
+  }
+  .subpage-contact-wrap .section-tag {
+    text-align: center;
+    margin-bottom: 1.2rem;
+  }
+  .subpage-contact-wrap .section-tag span {
+    display: inline-block;
+    background: var(--pink-card);
+    color: var(--text-mid);
+    font-size: 0.85rem;
+    font-weight: 400;
+    padding: 0.35rem 1.2rem;
+    border-radius: 30px;
+    letter-spacing: 0.01em;
+  }
+  .contact-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .cta-btn {
+    display: inline-block;
+    border: 1.5px solid var(--pink-dark);
+    color: var(--pink-dark);
+    background: transparent;
+    font-weight: 600;
+    font-size: 0.92rem;
+    padding: 0.75rem 1.8rem;
+    border-radius: 30px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.18s ease, color 0.18s ease;
+    cursor: pointer;
+  }
+  .cta-btn:hover { background: var(--pink-dark); color: var(--white); }
+  .contact-or { color: var(--text-dark); font-size: 0.95rem; }
+  .contact-email-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+  }
+  .contact-email-label { font-size: 0.75rem; color: var(--text-mid); text-align: center; }
+  .contact-email-row { display: flex; align-items: center; gap: 0.5rem; }
+  .contact-email { font-weight: 700; color: var(--text-dark); font-size: 1rem; }
+  .copy-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    color: var(--text-mid);
+    transition: color 0.15s ease;
+  }
+  .copy-btn:hover { color: var(--pink-dark); }
+  .copy-btn svg { width: 16px; height: 16px; }
+  @media (max-width: 700px) {
+    .contact-row { flex-direction: column; gap: 1.1rem; }
+  }
+
+  /* ── SECTION HIERARCHY BADGES ── */
+  .sec-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.7rem;
+    height: 1.7rem;
+    padding: 0 0.35rem;
+    margin-right: 0.7rem;
+    border-radius: 8px;
+    background: var(--pink-card);
+    color: var(--pink-dark);
+    font-size: 0.85rem;
+    font-weight: 700;
+    vertical-align: middle;
+  }
+
+  /* ── COLLAPSIBLE SECTION OUTLINE (Notion-style) ── */
+  .toc-widget {
+    position: fixed;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    z-index: 120;
+  }
+  .toc-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--pink-dark);
+    color: var(--white);
+    border: none;
+    padding: 0.7rem 1.1rem;
+    border-radius: 30px;
+    font-family: "DM Sans", sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 8px 22px rgba(44,26,32,0.22);
+    transition: background 0.18s ease;
+  }
+  .toc-toggle:hover { background: var(--text-mid); }
+  .toc-toggle svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.2s ease;
+  }
+  .toc-widget.open .toc-toggle svg { transform: rotate(180deg); }
+  .toc-panel {
+    display: none;
+    flex-direction: column;
+    gap: 0.15rem;
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 0.6rem);
+    background: var(--white);
+    border-radius: 14px;
+    padding: 0.7rem;
+    min-width: 240px;
+    max-height: 60vh;
+    overflow-y: auto;
+    box-shadow: 0 14px 32px rgba(44,26,32,0.22);
+  }
+  .toc-widget.open .toc-panel { display: flex; }
+  .toc-panel a {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.6rem;
+    border-radius: 8px;
+    color: var(--text-dark);
+    text-decoration: none;
+    font-size: 0.86rem;
+    transition: background 0.15s ease;
+  }
+  .toc-panel a:hover { background: var(--bg); }
+  .toc-panel a .sec-badge { margin-right: 0; flex-shrink: 0; }
+  @media (max-width: 700px) {
+    .toc-widget { right: 1rem; bottom: 1rem; }
+    .toc-panel { min-width: 200px; }
+  }
+</style>
+</head>
+<body>
+<div class="toc-widget" id="tocWidget">
+  <button class="toc-toggle" id="tocToggle" aria-expanded="false" aria-controls="tocPanel">
+    <span>sections</span>
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <div class="toc-panel" id="tocPanel">
+      <a href="#sec-a"><span class="sec-badge">A</span>My Role</a>
+      <a href="#sec-b"><span class="sec-badge">B</span>Problem Statement</a>
+      <a href="#sec-c"><span class="sec-badge">C</span>Design Brief</a>
+      <a href="#sec-d"><span class="sec-badge">D</span>Prototype</a>
+      <a href="#sec-e"><span class="sec-badge">E</span>Future Scope</a>
+      <a href="#sec-f"><span class="sec-badge">F</span>Lessons</a>
+      <a href="#sec-g1"><span class="sec-badge">G</span>User Research</a>
+      <a href="#sec-h"><span class="sec-badge">H</span>Market Research</a>
+      <a href="#sec-i1"><span class="sec-badge">I</span>Ideation</a>
+  </div>
+</div>
+
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="index.html" title="Home">
+    <span class="nav-brand-icon">
+      <img src="images/favicon-index-white.png" alt="Bhairavi Thul — home">
+    </span>
+  </a>
+  <div class="nav-links">
+    <a href="#contact" class="nav-link">contact</a>
+    <a href="http://www.linkedin.com/in/bhairavithul" target="_blank" rel="noopener" class="linkedin-btn" title="LinkedIn">
+      <!-- Rounded filled LinkedIn icon -->
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <rect width="24" height="24" rx="5" fill="var(--nav-bg)"/>
+        <path fill="white" d="M7.2 5.5a1.7 1.7 0 1 1 0 3.4 1.7 1.7 0 0 1 0-3.4zM5.7 10.5h3v9h-3v-9zm4.8 0h2.9v1.3h.04c.4-.77 1.4-1.58 2.88-1.58 3.08 0 3.65 2.03 3.65 4.67v5.58H17v-4.95c0-1.18-.02-2.7-1.65-2.7-1.65 0-1.9 1.29-1.9 2.62v5.03H10.5v-9z"/>
+      </svg>
+    </a>
+  </div>
+  <button class="nav-toggle" aria-label="Open menu" onclick="document.getElementById('navDropdown').classList.toggle('active'); this.classList.toggle('active')">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 6h16M4 12h16M4 18h16" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </button>
+  <div class="nav-dropdown" id="navDropdown">
+    <a href="#contact">contact</a>
+    <a href="http://www.linkedin.com/in/bhairavithul" target="_blank" rel="noopener">LinkedIn ↗</a>
+  </div>
+</nav>
+
+<div class="cs-article">
+
+  <!-- HEADER -->
+  <div class="cs-tags"><span>Govtech&nbsp;&nbsp;•&nbsp;&nbsp;Digital Identity&nbsp;&nbsp;•&nbsp;&nbsp;Security</span></div>
+  <h1 class="cs-title">DG Lock</h1>
+
+  <div class="cs-cover"><img src="images/img-63b7c36bcb51.png" alt="DG Lock cover"></div>
+
+  <p class="cs-quote">
+    DG Lock is an ambitious project in Saudi Arabia designed to create a sustainable and technologically advanced
+    city. Within it, a digital locker provides residents with a secure and convenient solution for managing and
+    storing their personal digital assets, enhancing both security and accessibility.
+  </p>
+
+  <div class="cs-meta">
+    <div class="cs-meta-item">
+      <div class="cs-meta-label">Duration</div>
+      <div class="cs-meta-value">03 months</div>
+    </div>
+    <div class="cs-meta-item">
+      <div class="cs-meta-label">Role</div>
+      <div class="cs-meta-value">Experience Designer</div>
+    </div>
+    <div class="cs-meta-item">
+      <div class="cs-meta-label">Region</div>
+      <div class="cs-meta-value">Saudi Arabia</div>
+    </div>
+  </div>
+
+  <!-- MY ROLE -->
+  <h2 class="cs-heading" id="sec-a"><span class="sec-badge">A</span>My Role — What did I do to make the product seamless?</h2>
+  <p class="cs-para">In my role, I played a key part in shaping the user experience by:</p>
+  <ul class="cs-list">
+    <li><strong>Identifying Problems:</strong> Analyzed user research and existing design constraints to pinpoint issues and areas for improvement.</li>
+    <li><strong>Leading Ideation:</strong> Facilitated brainstorming sessions and created initial sketches and wireframes to explore and refine design solutions.</li>
+    <li><strong>Refining Designs:</strong> Iterated on designs based on feedback to ensure alignment with user needs and project goals.</li>
+    <li><strong>Collaboration:</strong> Worked constantly with the Design, PO, and Dev teams to ensure a seamless experience in the product.</li>
+  </ul>
+
+  <!-- PROBLEM STATEMENT -->
+  <h2 class="cs-heading" id="sec-b"><span class="sec-badge">B</span>Problem Statement — What were the challenges faced?</h2>
+  <p class="cs-para">
+    In DG Lock, residents need a secure and user-friendly digital locker to manage and store their digital assets.
+    Current solutions often fall short in security, usability, and integration. The challenge was to create a
+    digital locker that provides robust security and seamless access within DG Lock's advanced technological
+    ecosystem.
+  </p>
+
+  <!-- DESIGN BRIEF -->
+  <h2 class="cs-heading" id="sec-c"><span class="sec-badge">C</span>Design Brief — What was the aim of this project?</h2>
+  <p class="cs-para">
+    To build a digital government platform that acts as a single entity catering to individuals and businesses
+    inside DG Lock, having minimum physical interaction, maintaining the confidentiality of the data, and being
+    the medium between the citizens and the government.
+  </p>
+  <img class="photo-shot" src="images/img-2b9afa2be4ea.jpg" alt="Working from office">
+  <p class="img-caption">Above: Working from office</p>
+
+  <!-- PROTOTYPE -->
+  <h2 class="cs-heading" id="sec-d"><span class="sec-badge">D</span>Prototype — How were the hi-fi designs created?</h2>
+
+  <p class="cs-eyebrow">Easy Onboarding (hybrid method)</p>
+  <p class="cs-para">
+    When the user opens the app for the first time, they see splash screens introducing the features DG Lock
+    offers. By the time the app finishes loading, the user is already engaged and aware of what the platform can do.
+  </p>
+  <div class="img-quad">
+    <div class="phone-shot-wrap"><img class="phone-shot" src="images/img-bffaa494040d.jpg" alt="Splash screen 1"></div>
+    <div class="phone-shot-wrap"><img class="phone-shot" src="images/img-d16326f64217.jpg" alt="Splash screen 2"></div>
+    <div class="phone-shot-wrap"><img class="phone-shot" src="images/img-9ed4f36290c2.jpg" alt="Splash screen 3"></div>
+    <div class="phone-shot-wrap"><img class="phone-shot" src="images/img-7ea18bb05725.jpg" alt="Splash screen 4"></div>
+  </div>
+
+  <p class="cs-eyebrow" style="margin-top:1.5rem;">Responsive Designs</p>
+  <p class="cs-para">
+    This app is compatible with both operating systems (Android &amp; iOS) and works across tablets as well as
+    smartphones.
+  </p>
+  <div class="img-row-matched">
+    <div class="img-row-item">
+      <img class="matched-shot" src="images/img-800ab973d58b.jpg" alt="Locker view — Tablet">
+      <p class="img-caption">Above: Tablet</p>
+    </div>
+    <div class="img-row-item">
+      <img class="matched-shot" src="images/img-1690fcc8c0fa.jpg" alt="Locker view — Smartphone">
+      <p class="img-caption">Above: Smartphone</p>
+    </div>
+  </div>
+
+  <p class="cs-eyebrow" style="margin-top:1.5rem;">Secure Files / Folders</p>
+  <p class="cs-para">
+    Security was the biggest factor that led to making every document uploaded on the app have password protection
+    or a time bound. This not only increased trust but gave privacy too.
+  </p>
+  <div class="img-pair">
+    <div class="phone-shot-wrap"><img class="phone-shot" src="images/img-84858c1e7169.jpg" alt="Business locker view"></div>
+    <div class="phone-shot-wrap"><img class="phone-shot" src="images/img-a673ffb8bb30.jpg" alt="Business locker — folder view"></div>
+  </div>
+
+  <!-- FUTURE SCOPE -->
+  <h2 class="cs-heading" id="sec-e"><span class="sec-badge">E</span>Future Scope — What if the app is released in Arabic?</h2>
+  <p class="cs-para">
+    There is a high possibility that in future the app may have more language privileges. In that case, RTL
+    language design layouts are also ready.
+  </p>
+  <div class="img-pair">
+    <div>
+      <div class="phone-shot-wrap"><img class="phone-shot" src="images/img-8d1d5c2d0ec1.jpg" alt="Business locker — LTR layout"></div>
+      <p class="img-caption">For: LTR</p>
+    </div>
+    <div>
+      <div class="phone-shot-wrap"><img class="phone-shot" src="images/img-b265102da9cf.jpg" alt="Business locker — RTL layout"></div>
+      <p class="img-caption">For: RTL</p>
+    </div>
+  </div>
+
+  <!-- LESSONS -->
+  <h2 class="cs-heading" id="sec-f"><span class="sec-badge">F</span>Lessons - What Could Be Worked Upon?</h2>
+  <ul class="cs-list">
+    <li><strong>Tight Deadline:</strong> The tight deadline constrained the project, limiting research, design iterations, and user testing, which could impact the final solution's quality and thoroughness.</li>
+    <li><strong>Limited Testing:</strong> Insufficient time almost prevented thorough user testing and iteration, potentially leading to unresolved usability issues.</li>
+  </ul>
+
+  <!-- USER RESEARCH: BACKGROUND -->
+  <h2 class="cs-heading" id="sec-g1"><span class="sec-badge">G1</span>User Research — What was the background study done?</h2>
+  <p class="cs-para">
+    Influencing factors and trends were focused on first to build a solid foundation.
+  </p>
+
+  <p class="cs-eyebrow">Influencing Factors</p>
+  <div class="icon-grid">
+    <div class="icon-card">
+      <div class="icon-ph">🏛️</div>
+      <p><strong>Government:</strong> Ensure services are easily accessible to citizens, minimizing time and effort.</p>
+    </div>
+    <div class="icon-card">
+      <div class="icon-ph">🌍</div>
+      <p><strong>Social Influence:</strong> As Saudi Arabia rapidly develops, people are embracing and promoting these advancements.</p>
+    </div>
+    <div class="icon-card">
+      <div class="icon-ph">🕌</div>
+      <p><strong>Tourism:</strong> Known for its beauty and progress, Saudi Arabia attracts many visitors interested in its development and attractions.</p>
+    </div>
+    <div class="icon-card">
+      <div class="icon-ph">💰</div>
+      <p><strong>Economy:</strong> A cutting-edge project like DG Lock draws global interest and investment, likely stimulating economic growth.</p>
+    </div>
+    <div class="icon-card">
+      <div class="icon-ph">📱</div>
+      <p><strong>Technology:</strong> Technology impacts daily routines and facilitates connections across different parts of the world.</p>
+    </div>
+  </div>
+
+  <p class="cs-eyebrow" style="margin-top:1.5rem;">Trends</p>
+  <div class="icon-grid">
+    <div class="icon-card">
+      <div class="icon-ph">🤝</div>
+      <p><strong>Data Sharing &amp; Collaboration:</strong> A crucial element of online networking and global connectivity.</p>
+    </div>
+    <div class="icon-card">
+      <div class="icon-ph">🤖</div>
+      <p><strong>Artificial Intelligence:</strong> Enhances user experience across fields by analyzing and understanding user behavior patterns.</p>
+    </div>
+    <div class="icon-card">
+      <div class="icon-ph">🔒</div>
+      <p><strong>Privacy &amp; Security:</strong> Essential for ensuring the safety of information and data.</p>
+    </div>
+  </div>
+
+  <!-- MARKET RESEARCH -->
+  <h2 class="cs-heading" id="sec-h"><span class="sec-badge">H</span>Market Research — What about the competitor apps out there?</h2>
+  <p class="cs-para">
+    Yes, competitors were thoroughly analyzed on a global scale. Features and drawbacks were compared to get a
+    better understanding of where DG Lock could differentiate.
+  </p>
+  <div class="img-pair">
+    <img class="wide-shot" src="images/img-3eee04e699bc.jpg" alt="Competitive benchmarking — 1">
+    <img class="wide-shot" src="images/img-0747ae336f26.jpg" alt="Competitive benchmarking — 2">
+  </div>
+
+  <!-- USER RESEARCH: PRIMARY -->
+  <h2 class="cs-heading" id="sec-g2"><span class="sec-badge">G2</span>User Research — How did the primary research begin?</h2>
+  <p class="cs-para">
+    Initially, the approach was a little confusing. Using the snowballing technique, a survey (via Google Forms)
+    was circulated among friends and colleagues to get a variety of information. To reduce language barriers, only
+    English speakers were surveyed.
+  </p>
+  <div class="photo-grid">
+    <img class="wide-shot" src="images/img-2525827c31fa.jpg" alt="Survey response snapshot 1">
+    <img class="wide-shot" src="images/img-40e5f9ab4cd1.jpg" alt="Survey response snapshot 2">
+    <img class="wide-shot" src="images/img-9817ba6159bf.jpg" alt="Survey response snapshot 3">
+    <img class="wide-shot" src="images/img-4f9ed8fd4689.jpg" alt="Survey response snapshot 4">
+    <img class="wide-shot" src="images/img-04ce10e736a2.jpg" alt="Survey response snapshot 5">
+    <img class="wide-shot" src="images/img-33ae880c3135.jpg" alt="Survey response snapshot 6">
+    <img class="wide-shot" src="images/img-336f5f3b272f.jpg" alt="Survey response snapshot 7">
+    <img class="wide-shot" src="images/img-47d55fe907e2.jpg" alt="Survey response snapshot 8">
+    <img class="wide-shot" src="images/img-19317b268a28.jpg" alt="Survey response snapshot 9">
+  </div>
+  <p class="research-sample">Sample size: 54 participants</p>
+
+  <p class="cs-eyebrow">Analytics</p>
+  <div class="link-row">
+    <a class="link-btn" href="https://visualize.graphy.app/board/285b7701-5b35-4170-8d86-3397fb5fc7bd/view" target="_blank" rel="noopener">View analytics ↗</a>
+  </div>
+
+  <!-- USER RESEARCH: INTERVIEWS -->
+  <h2 class="cs-heading" id="sec-g3"><span class="sec-badge">G3</span>User Research — How were user interviews?</h2>
+  <p class="cs-para">
+    Out of 54 participants, 32 people were ready for the interview. It was an interesting experience to interview
+    people and understand their perspective on the subject. The interviews lasted approximately 45 minutes each.
+    The following questions were asked to each participant:
+  </p>
+
+  <p class="cs-eyebrow">🙋 Personal Experience</p>
+  <ul class="cs-list">
+    <li>Can you describe how you currently manage your digital assets (e.g., documents, photos, passwords)?</li>
+    <li>What challenges do you face with your current digital storage solutions?</li>
+  </ul>
+
+  <p class="cs-eyebrow" style="margin-top:1.2rem;">🛡️ Security Concerns</p>
+  <ul class="cs-list">
+    <li>How important is security when it comes to storing your digital assets?</li>
+    <li>Have you ever experienced a breach of digital security? How did it impact you?</li>
+  </ul>
+
+  <p class="cs-eyebrow" style="margin-top:1.2rem;">♿ Convenience and Accessibility</p>
+  <ul class="cs-list">
+    <li>How often do you access your digital assets, and from which devices?</li>
+    <li>What features would make a digital locker more convenient for you?</li>
+  </ul>
+
+  <p class="cs-eyebrow" style="margin-top:1.2rem;">👍 Trust and Perception</p>
+  <ul class="cs-list">
+    <li>What factors would influence your trust in a digital locker service?</li>
+    <li>How do you feel about a government-backed digital locker solution?</li>
+  </ul>
+  <p class="research-sample">Sample size: 32 participants</p>
+
+  <!-- USER RESEARCH: INSIGHTS -->
+  <h2 class="cs-heading" id="sec-g4"><span class="sec-badge">G4</span>User Research — What were the insights drawn from the research?</h2>
+  <img class="wide-shot" src="images/img-68ebb73e718a.png" alt="Research insights summary">
+
+  <!-- IDEATION: PERSONAS / JOURNEY -->
+  <h2 class="cs-heading" id="sec-i1"><span class="sec-badge">I1</span>Ideation — How was the data utilized from the research?</h2>
+  <p class="cs-para">
+    User personas were created using details from both primary and secondary research. The personas helped
+    empathize with and understand what users might say, think, do, and feel. After inferring the empathy map, the
+    user journey map was deduced.
+  </p>
+  <div class="photo-grid">
+    <img class="wide-shot" src="images/img-5c5e1584cf62.jpg" alt="User persona — Adnan Ahmed">
+    <img class="wide-shot" src="images/img-d79052fb7cc7.jpg" alt="User persona — Ravi Patel">
+    <img class="wide-shot" src="images/img-791eead78224.jpg" alt="Empathy map — Ravi Patel">
+    <img class="wide-shot" src="images/img-9e0468f05165.jpg" alt="Empathy map — Adnan Ahmed">
+    <img class="wide-shot" src="images/img-c5bad77f96d7.jpg" alt="User journey map — Ravi Patel">
+    <img class="wide-shot" src="images/img-94f8522052da.jpg" alt="User journey map — Adnan Ahmed">
+  </div>
+
+  <!-- IDEATION: USER FLOWS -->
+  <h2 class="cs-heading" id="sec-i2"><span class="sec-badge">I2</span>Ideation — How was user journey depicted to create the designs?</h2>
+  <p class="cs-para">Using the inference from the user journey map, the user flows were created.</p>
+  <div class="img-row-matched">
+    <div class="img-row-item">
+      <img class="matched-shot" src="images/img-ee1727bfff19.jpg" alt="User flow diagram — Business ideation">
+    </div>
+    <div class="img-row-item">
+      <img class="matched-shot" src="images/img-2ca319bd49f9.jpg" alt="User flow diagram — Contract signing">
+    </div>
+  </div>
+
+  <!-- IDEATION: LO-FI MOCKUPS -->
+  <h2 class="cs-heading" id="sec-i3"><span class="sec-badge">I3</span>Ideation — How were the ideas showcased?</h2>
+  <p class="cs-para">
+    Using a digital method, lo-fi mockups were created to showcase the ideas. This not only gave a clear picture
+    but helped the PO team understand the approach.
+  </p>
+  <img class="wide-shot" src="images/img-2bc65427c722.jpg" alt="Lo-fi wireframes">
+
+  <!-- FOOTER -->
+  <div class="cs-footer">
+    <p class="cs-next-heading">Explore more work</p>
+    <div class="cs-next-grid">
+      <a class="cs-next-card" href="index.html#tinker-village">
+        <div class="cs-next-thumb dark-thumb"><img src="images/img-b69f07c2fc18.jpg" alt="Tinker Village"></div>
+        <div class="cs-next-body">
+          <div class="cs-next-title">Tinker Village</div>
+          <div class="cs-next-desc">Stabilizing a platform through systems thinking, design systems &amp; sprint management.</div>
+        </div>
+      </a>
+      <a class="cs-next-card" href="wellguard.html">
+        <div class="cs-next-thumb"><img src="images/img-9f5c0dfd3d87.jpg" alt="WellGuard"></div>
+        <div class="cs-next-body">
+          <div class="cs-next-title">WellGuard</div>
+          <div class="cs-next-desc">Redesigning a US healthcare data platform for payers, providers, members &amp; governments.</div>
+        </div>
+      </a>
+      <a class="cs-next-card" href="swasbridge.html">
+        <div class="cs-next-thumb"><img src="images/img-5703128f171c.jpg" alt="SwasBridge"></div>
+        <div class="cs-next-body">
+          <div class="cs-next-title">SwasBridge</div>
+          <div class="cs-next-desc">Reimagining health insurance around proactive care and wellness engagement.</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+</div>
+<!-- CONTACT -->
+<div class="subpage-contact-wrap" id="contact">
+  <div class="section-tag"><span>let's cook cool projects together</span></div>
+  <div class="contact-row">
+    <a class="cta-btn" href="https://calendly.com/thulbhairavi" target="_blank" rel="noopener">schedule a call</a>
+    <span class="contact-or">or</span>
+    <div class="contact-email-block">
+      <span class="contact-email-label">e-mail at</span>
+      <span class="contact-email-row">
+        <span class="contact-email" id="contactEmail">thulbhairavi@gmail.com</span>
+        <button class="copy-btn" id="copyEmailBtn" title="Copy email" aria-label="Copy email">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" id="copyIcon">
+            <rect x="9" y="9" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M5 15V6a2 2 0 0 1 2-2h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </span>
+    </div>
+  </div>
+</div>
+
+<footer class="page-footer">
+  <span>last updated jul'26</span>
+  <span>©2026 bhairavi thul</span>
+</footer>
+<script>
+  // Copy email to clipboard
+  const copyBtn = document.getElementById('copyEmailBtn');
+  const copyIcon = document.getElementById('copyIcon');
+  const emailText = document.getElementById('contactEmail').textContent.trim();
+  const defaultIcon = copyIcon.innerHTML;
+  const checkIcon = '<path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+  copyBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(emailText).then(() => {
+      copyIcon.innerHTML = checkIcon;
+      copyBtn.title = 'Copied!';
+      setTimeout(() => {
+        copyIcon.innerHTML = defaultIcon;
+        copyBtn.title = 'Copy email';
+      }, 1500);
+    });
+  });
+
+  // Close the nav menu on any click outside it
+  const navToggleBtn = document.querySelector('.nav-toggle');
+  const navDropdownEl = document.getElementById('navDropdown');
+  document.addEventListener('click', (e) => {
+    if (
+      navDropdownEl.classList.contains('active') &&
+      !navDropdownEl.contains(e.target) &&
+      !navToggleBtn.contains(e.target)
+    ) {
+      navDropdownEl.classList.remove('active');
+      navToggleBtn.classList.remove('active');
+    }
+  });
+
+  // Collapsible section outline (Notion-style)
+  const tocWidget = document.getElementById('tocWidget');
+  const tocToggle = document.getElementById('tocToggle');
+  if (tocWidget && tocToggle) {
+    tocToggle.addEventListener('click', () => tocWidget.classList.toggle('open'));
+    document.addEventListener('click', (e) => {
+      if (tocWidget.classList.contains('open') && !tocWidget.contains(e.target)) {
+        tocWidget.classList.remove('open');
+      }
+    });
+    tocWidget.querySelectorAll('.toc-panel a').forEach(a => {
+      a.addEventListener('click', () => tocWidget.classList.remove('open'));
+    });
+  }
+</script>
+</body>
+</html>
