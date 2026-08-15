@@ -1,16 +1,20 @@
 # Product Design Portfolio & UX Architecture Showcase
 
-A hand-crafted, lightweight portfolio designed to balance systems logic with human warmth. Built with clean semantic HTML, custom styling, and deployed via GitHub Pages.
+A lightweight, high-performance portfolio designed to balance complex systems logic with human warmth. Built with semantic HTML5, custom layouts, and deployed via GitHub Pages.
 
 ---
 
-### Design & UX Intent
-- **System Logic with Personal Touch:** Structured bento-grid layouts grounded with personal storytelling, warmth, and brand identity.
-- **Defensive Edge-Case Design:** Custom 404 recovery page designed with delightful microcopy to catch broken routes and redirect users back to safety.
-- **Conversion-Focused CTAs:** Frictionless scheduling path via Calendly and direct clipboard copy interactions.
+### 🎨 Design Systems & UX Intent
 
-### Technical Implementation & UX Friction Removal
-- **Mobile Touch Affordances:** Built custom shake animations triggered on scroll to solve missing hover states on mobile touchscreens.
-- **Clipboard API:** Bypassed unreliable native `mailto:` links with a subtle one-click copy button next to my email.
-- **Semantic HTML5 Architecture:** Clean DOM structure ensuring instant load times, high performance, and accessibility.
-- **AI Pair-Programming:** Directed technical implementation and code structure using Claude.
+* **Systems Logic with Brand Warmth:** Structured adaptive layout systems grounded with personal storytelling, visual balance, and authentic identity.
+* **Defensive Edge-Case Engineering:** Implemented a custom 404 error recovery loop featuring delightful microcopy to catch broken routes and gracefully redirect users back to safety.
+* **Conversion-Driven CTAs:** Designed frictionless scheduling funnels via Calendly integration paired with immediate, one-click contact utilities.
+
+---
+
+### 🛠 Technical Implementation & Friction Removal
+
+* **Mobile Touch Affordances:** Engineered responsive shake micro-interactions triggered on scroll to gracefully substitute missing hover states on touch devices.
+* **Clipboard API Integration:** Eliminated unreliable, disruptive native `mailto:` links with a seamless, one-click copy utility for rapid email retrieval.
+* **Semantic DOM Optimization:** Structured a highly optimized HTML5 hierarchy ensuring near-instantaneous load times, accessibility compliance, and SEO indexing.
+* **AI-Augmented Architecture:** Directed end-to-end technical implementation, algorithmic state mapping, and codebase cleanliness using Claude as a programming copilot.
