@@ -4,7 +4,7 @@ A lightweight, high-performance portfolio designed to balance complex systems lo
 
 ---
 
-### 🎨 Design Systems & UX Intent
+### Design Systems & UX Intent
 
 * **Systems Logic with Brand Warmth:** Structured adaptive layout systems grounded with personal storytelling, visual balance, and authentic identity.
 * **Defensive Edge-Case Engineering:** Implemented a custom 404 error recovery loop featuring delightful microcopy to catch broken routes and gracefully redirect users back to safety.
@@ -12,7 +12,7 @@ A lightweight, high-performance portfolio designed to balance complex systems lo
 
 ---
 
-### 🛠 Technical Implementation & Friction Removal
+### Technical Implementation & Friction Removal
 
 * **Mobile Touch Affordances:** Engineered responsive shake micro-interactions triggered on scroll to gracefully substitute missing hover states on touch devices.
 * **Clipboard API Integration:** Eliminated unreliable, disruptive native `mailto:` links with a seamless, one-click copy utility for rapid email retrieval.
